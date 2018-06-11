@@ -1,19 +1,6 @@
-# Project: rOceans
-# Starting date: 16/05/2018
-# Last update: 09/06/2008
-# Authors: I. Montero-Serra,  
-# Mentors: E. Aspillaga, V. Barve, N Barve & K. Kaplan,
-# Funding: Google Summer Code 2018
-# Script name: rOceans - Marine Biodiversity: Functions to analyze big data on marine biodiversity
-
-# Short description of oceanDivData:
-# Second set of functions of the rOceans package. They will allow to use big data from OBIS
-# and GBIF of thousands of species at global scale to map abundance, richness, beta-diversity
-# and also to take into account spatial sampling bias
-
-# Funcion 2.1 oceanDataCheck merges, checks and filters big datasets from OBIS and GBIF
-# Funcion 2.2 oceanAbundGrid Compute spatial patterns of abundance of occurrences at multiple scales
-# Funcion 2.3 oceanDiversity Compute spatial patterns of species richness, shannon diversity & simpsons diversity 
+#' Funcion 2.1 oceanDataCheck merges, checks and filters big datasets from OBIS and GBIF
+#' Funcion 2.2 oceanAbundGrid Compute spatial patterns of abundance of occurrences at multiple scales
+#' Funcion 2.3 oceanDiversity Compute spatial patterns of species richness, shannon diversity & simpsons diversity 
 
 library(raster) # Spatial analysis
 library(rgeos) # Spatial analysis
@@ -73,12 +60,18 @@ oceanDataCheck = function (source="OBIS",
     colnames(occurrences) = c("scientificName", "species","decimalLongitude", "decimalLatitude",
                               "catalogNumber",  "institutionCode")
     
+    occurrences$decimalLongitude = as.numeric(occurrences$decimalLongitude)
+    occurrences$decimalLatitude = as.numeric(occurrences$decimalLatitude)
+    
   }
   
   if(source=="OBIS"){
     
     occurrences = OBIS_occurrences[,c("scientificName", "species","decimalLongitude", "decimalLatitude",
                                       "catalogNumber",  "institutionCode")]
+    
+    occurrences$decimalLongitude = as.numeric(occurrences$decimalLongitude)
+    occurrences$decimalLatitude = as.numeric(occurrences$decimalLatitude)
   }
   
   if(source=="GBIF_&_OBIS"){
@@ -96,6 +89,10 @@ oceanDataCheck = function (source="OBIS",
     
     occurrences = rbind(GBIF_occurrences,OBIS_occurrences)
     
+    occurrences$decimalLongitude = as.numeric(occurrences$decimalLongitude)
+    occurrences$decimalLatitude = as.numeric(occurrences$decimalLatitude)
+    
+    
   }
   
   
@@ -103,13 +100,12 @@ oceanDataCheck = function (source="OBIS",
   
   if(remove_duplicates){
     
-    occurrences2 <- distinct(occurrences, scientificName, decimalLongitude,
-                             decimalLatitude,institutionCode) # Deleting duplicates
+    occurrences_filtered <- distinct(occurrences, scientificName, decimalLongitude,
+                             decimalLatitude,institutionCode,institutionCode) # Deleting duplicates
     
-    warning(paste(nrow(occurrences)-nrow(occurrences2),"duplicate data points were deleted"))
+    cat(paste(nrow(occurrences)-nrow(occurrences_filtered),"duplicate data points were deleted"),sep="\n")
     
-    occurrences3 = na.omit(occurrences2[,c("scientificName","decimalLongitude", "decimalLatitude")])
-    
+    occurrences = occurrences_filtered
     
   }
   
@@ -117,9 +113,11 @@ oceanDataCheck = function (source="OBIS",
   
   if(remove_NAs)  {
     
-    warning(paste(nrow(occurrences2)-nrow(occurrences3),"data points containing NAs were deleted"))
+    occurrences_filtered = na.omit(occurrences[,c("scientificName","decimalLongitude", "decimalLatitude")])
     
-    occurrences = occurrences3
+    cat(paste(nrow(occurrences)-nrow(occurrences_filtered),"data points containing NAs were deleted"),sep="\n")
+    
+    occurrences = occurrences_filtered
     
   }
   
@@ -141,8 +139,8 @@ oceanDataCheck = function (source="OBIS",
     
     occurrences2 = occurrences[!is.na(land_test),]
     
-    warning(paste(nrow(occurrences)-nrow(occurrences2),"land data points were deleted"))
-    
+    cat(paste(nrow(occurrences)-nrow(occurrences2),"land data points were deleted"),sep="\n")
+  
     occurrences = occurrences2
   }
   
@@ -473,49 +471,6 @@ oceanMaps = function (grid,
   }
   
 }
-
-
-
-
-# Example: global analysis of Acropora species (tropical corals) using data downloaded from GBIF and OBIs
-
-
-#setwd("C:/Users/monteroserra/Desktop/rOceans Google Summer Code/Example_Acropora")
-#setwd("C:/Users/monteroserra/Desktop/rOceans Google Summer Code/Example_Alcyonacea")
-
-
-#Acropora_GBIF <- read.csv("Acropora_GBIF.csv", sep=";") # problems with some coordinates with text
-
-Acropora_OBIS <- read.csv("Acropora_OBIS.csv", sep=";")
-
-
-
-#using checking functions
-Acropora_OBIS_checked = oceanDataCheck(source = "OBIS", OBIS_occurrences = Acropora_OBIS)
-
-
-
-Acropora_abundance = oceanAbundGrid(Acropora_OBIS_checked)
-
-oceanMaps(Acropora_abundance, logScale=T)
-
-Acropora_richness = oceanDiversity(occurrences = Acropora_OBIS_checked)
-
-Acropora_shannon_div = oceanDiversity(occurrences = Acropora_OBIS_checked, 
-                                         diversity_metric="shannon")
-
-Acropora_simpson_div = oceanDiversity(occurrences = Acropora_OBIS_checked, 
-                                      diversity_metric="simpson")
-
-
-oceanMaps(Acropora_richness, logScale=F)
-oceanMaps(Acropora_shannon_div, logScale=F)
-oceanMaps(Acropora_simpson_div, logScale=F)
-
-
-
-
-
 
 
 

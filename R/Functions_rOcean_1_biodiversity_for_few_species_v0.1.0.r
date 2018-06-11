@@ -1,18 +1,3 @@
-# Project: rOceans
-# Starting date: 16/05/2018
-# Last update: 11/06/2018
-# Authors: I. Montero-Serra,  E. Aspillaga, V. Barve, N Barve & K. Kaplan,
-# Funding: Google Summer Code 2018
-# Script name: rOceans - Marine Biodiversity: Functions to access and process biodiversity data
-
-# Short description of oceanDivData:
-# This is the first set of functions of the rOceans package. They take advantage of robis, rgbif and
-# The goal is to access marine biodiversity data from different sources format them into spatial objects
-# that can then be used for macroegological and
-# marine conservation analyses.Due to computational limitations, this first set of functions
-# is aimed for analazing only single or few species. For analyzing global patterns including
-# thousands of species see second set of functions.
-
 #' Funcion 1.1 oceanDivData Access & filter distribution data for a range of species from OBIS & GBIF
 #' Funcion 1.2  presenceRaster Make rasters of presence absence data
 #' Function 1.3 oceanRichness: Creates a raster object with species richness per cell
@@ -33,9 +18,9 @@ library(geosphere) # Spatial analysis
 library(roxygen2) # for Documentation
 
 
-#Function 1.1 oceanDist: allows getting presences and distribution maps  for a list of species
+#' Function 1.1 oceanDist: allows getting presences and distribution maps  for a list of species
 
-# ROxygen2 block for function #1
+#' ROxygen2 block for function #1
 
 #' Allows getting distribution data  for a list of species from OBIS & GBIF
 #'
