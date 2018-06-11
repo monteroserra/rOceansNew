@@ -287,7 +287,7 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
                               min_long = -180, max_long = 180,
                               min_lat = -90,   max_lat = 90, 
                               diversity_metric="richness") {
-  
+  occurrences = Acropora_Total_Checked
 
 #for richness matrices, we can make a loop to split the database for each species and make the same computation
   
@@ -314,16 +314,11 @@ data$count<- ave(data$decimalLatitude,data$IDNgrid,FUN=length)
 abundancesGrid <- data[!duplicated(data$IDgrid),]
 
 all_cells = abundancesGrid[,c(long_name, lat_name,"IDgrid","IDNgrid",species_name)]
-
-
 all_cells = arrange(all_cells, IDNgrid)
-
 sps_abund_matrix = all_cells
 
-
-
 for(i in 1:length(species)){
-  species_id = levels(species)[i]
+  species_id = species[i]
   data2 = data[data$scientificName==species_id,]
   data2$count<- ave(data2$decimalLatitude,data2$IDNgrid,FUN=length)
   data3 <- na.omit(data2)
@@ -333,7 +328,7 @@ for(i in 1:length(species)){
   dataMerge[is.na(dataMerge)] <- 0
   sps_abund_matrix$species_abundance = dataMerge$count
   colnames(sps_abund_matrix)[5+i] <- paste(species_id)
-  
+  cat(paste(i,"of",length(species),"species"), sep="\n")
 }
 
 # Here we get a presence/absence mx from species abundance mx and compute species richness per cell

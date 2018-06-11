@@ -18,10 +18,35 @@ Acropora_OBIS$decimalLongitude = as.numeric(Acropora_OBIS$decimalLongitude)
 Acropora_OBIS$decimalLatitude = as.numeric(Acropora_OBIS$decimalLatitude)
 
 
+#Checking, filtering and merging big datasets downloaded directly from OBIS & GBIF
 
 Acropora_OBIS_checked = oceanDataCheck(OBIS_occurrences = Acropora_OBIS, source = "OBIS")
 Acropora_GBIF_checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF, source = "GBIF")
 
-colnames()
+Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
+                                        OBIS_occurrences = Acropora_OBIS,
+                                        source = "GBIF_&_OBIS")
+
+# Computing abundance grids
+
+Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked)
+
+oceanMaps(Acropora_abundance, logScale=T)
+
+Acropora_richness = oceanDiversity(occurrences = Acropora_Total_Checked, 
+                                    diversity_metric = "richness")
+
+oceanMaps(Acropora_richness, logScale=T)
+
+Acropora_diversity = oceanDiversity(occurrences = Acropora_Total_Checked, 
+                                   diversity_metric = "shannon")
+
+oceanMaps(Acropora_diversity, logScale=F)
+
+
+
+
+
+
 
 
