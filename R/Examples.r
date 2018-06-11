@@ -38,11 +38,6 @@ Acropora_richness = oceanDiversity(occurrences = Acropora_Total_Checked,
 
 oceanMaps(Acropora_richness, logScale=T)
 
-Acropora_diversity = oceanDiversity(occurrences = Acropora_Total_Checked, 
-                                   diversity_metric = "shannon")
-
-oceanMaps(Acropora_diversity, logScale=F)
-
 
 
 
