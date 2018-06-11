@@ -1,0 +1,30 @@
+Package: rOceansNew
+Type: Package
+Title: Analyses of Spatial Patterns in Marine Biodiversity and Conservation 
+Version: 0.1.0
+Author:  person("Ignasi", "Montero-Serra", email = "monteroserra@gmail.com",
+        role = c("aut", "cre"))
+
+Maintainer: I. Montero-Serra <monteroserra@gmail.com>
+Description: This packages allows extracting and exploring spatial occurrences for 
+marine species and provide useful toold for analyzing big datasets in marine 
+biodiversity patterns and human stressors. 
+Depends: R (>= 3.1.0)
+License: What license is it under?
+Encoding: UTF-8
+LazyData: true
+Imports:
+    dplyr,
+    raster,
+    rgeos,
+    sp, 
+    geosphere, 
+    maps,
+    RColorBrewer, 
+    dbplyr,
+    robis, 
+    rgibf 
+    
+    
+  
+    
