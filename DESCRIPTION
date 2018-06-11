@@ -1,6 +1,6 @@
 Package: rOceansNew
 Type: Package
-Title: Analyses of Spatial Patterns in Marine Biodiversity and Conservation 
+Title: Spatial Trends in Marine Biodiversity and Conservation 
 Version: 0.1.0
 Author:  person("Ignasi", "Montero-Serra", email = "monteroserra@gmail.com",
         role = c("aut", "cre"))
