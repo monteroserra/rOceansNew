@@ -1,5 +1,15 @@
 
 
+require(raster) # Spatial analysis
+require(rgeos) # Spatial analysis
+require(sp) # Spatial analysis
+require(geosphere) # Spatial analysis
+require(maps)
+require(dplyr)
+require(vegan)
+
+
+
 # Examples using my functions
 
 
@@ -63,5 +73,11 @@ oceanMaps(Bryozoa_abundance, logScale=T, low_color = "steelblue")
 
 Bryozoa_richness = oceanDiversity(occurrences = Bryozoa_OBIS_checked)
 oceanMaps(Bryozoa_richness, logScale=T, low_color = "steelblue")
+
+Bryozoa_div_simpson = oceanDiversity(occurrences = Bryozoa_OBIS_checked, 
+                                     diversity_metric = "simpson")
+oceanMaps(Bryozoa_richness, logScale=T)
+
+
 
 

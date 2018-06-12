@@ -1,27 +1,5 @@
-#' Funcion 1.1 oceanDivData Access & filter distribution data for a range of species from OBIS & GBIF
-#' Funcion 1.2  presenceRaster Make rasters of presence absence data
-#' Function 1.3 oceanRichness: Creates a raster object with species richness per cell
-#' Function 1.4 oceanMaps: Map occurrences and species distributions
-
-#'Required packages
-### packages to instal
-
-library(robis) # Access to GBIF Data
-library(rgbif) # Access to OBIS Data
-library(dbplyr)
-library(dplyr)
-library(raster) # Spatial analysis
-library(rgeos) # Spatial analysis
-library(sp) # Spatial analysis
-library(geosphere) # Spatial analysis
-
-library(roxygen2) # for Documentation
-
-
 #' Function 1.1 oceanDist: allows getting presences and distribution maps  for a list of species
-
 #' ROxygen2 block for function #1
-
 #' Allows getting distribution data  for a list of species from OBIS & GBIF
 #'
 #' @author I. Montero-Serra,  E. Aspillaga, V. Barve, N Barve & K. Kaplan,
@@ -45,6 +23,8 @@ library(roxygen2) # for Documentation
 #'
 #' @details The function creates downloads occurrences data from the specific sources
 #' and stores them in a data frame.
+#' @export
+
 
 oceanDivDat = function(species_names,
                        data_source = "OBIS",
@@ -153,12 +133,8 @@ my_occurrences = my_occurrences2
 return(my_occurrences)
 
 }
-#Function #1.2 presencesRaster creates presence / absence raster from species occurrence data
 
-# ROxygen2 block for function #1.2
-
-
-#' Create a presence / absence raster from occurrence data
+#' Function 1.1 oceanDist: Creates a presence / absence raster from occurrence data
 #'
 #' @author I. Montero-Serra,  E. Aspillaga, V. Barve, N Barve & K. Kaplan,
 #'
@@ -186,7 +162,8 @@ return(my_occurrences)
 #'
 #'
 #' @details The function creates a presences raster from  occurrences data
-
+#' 
+#' @export
 
 presencesRaster <- function (occurrences,
                              long_name = "decimalLongitude",
@@ -248,13 +225,7 @@ projection(spatial_occ)<-CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
 }
 
 
-
-#Function #1.3 oceanRichness creates richness raster from multispecies species occurrence data
-
-# ROxygen2 block for function #1.3
-
-
-#' Create a presence / absence raster from occurrence data
+#' Function #1.3 oceanRichness creates a richness layer from occurrence data
 #'
 #' @author I. Montero-Serra,  E. Aspillaga, V. Barve, N Barve & K. Kaplan,
 #'
@@ -283,6 +254,7 @@ projection(spatial_occ)<-CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
 #' @return The result is an object of class raster with richness grid cell
 #'
 #' @details
+#' @export
 
 oceanRichness = function(occurrences, species_name = "species",
                          long_name = "decimalLongitude",
@@ -317,149 +289,4 @@ if(richness_map) {
   return(raster_richness)
 
 }
-
-
-
-#Function #1.4 oceanMaps function in progress to plot different outputs of the rOcean package
-
-
-# ROxygen2 block for function #1.4
-
-
-#' visualize spatial patterns in marine biodiversity
-#'
-#' @author I. Montero-Serra,  E. Aspillaga, V. Barve, N Barve & K. Kaplan,
-#'
-#' @description to map different metrics computed using functions of the rOcean package
-#'
-#' @param grid raster of species presences, richness, abundance or other metrics.
-#'
-#' @param grid_provided to indicate whether a raster is provided to be mapped
-#'
-#' @param log_scale if True grid values are plotted in a log scale, useful for abundance representations
-#'
-#' @param occurrences species occurrences dataframe with at least latitude and longitude columns
-#'
-#' @param map_occurrences if true, occurrences are mapped for each species
-#'
-#' @param convex_hull if true, a convex hull is computed and mapped for each species of occurrences
-#'
-#' @param long_name column name for longitudes in the "occurrences" dataframe
-#'
-#' @param lat_name column name for latitudes in the "occurrences" dataframe
-#'
-#' @param species_names column name for species names in the "occurrences" dataframe
-#'
-#' @param min_long minimum longitude of the analysis
-#'
-#' @param max_long maximum longitude of the analysis
-#'
-#' @param max_long minimum latitute of the analysis
-#'
-#' @param max_lat maximum latitude of the analysis
-#'
-#' @return The result is a map with the spatial trends
-#'
-#' @details
-
-
-
-oceanMaps = function (grid,
-                      grid_provided=T,
-                      logScale = F,
-                      occurrences,
-                      map_occurrences = F,
-                      convex_hull = F,
-                      long_name="decimalLongitude",
-                      lat_name = "decimalLatitude",
-                      min_long = -180, max_long = 180,
-                      min_lat = -90, max_lat = 90,
-                      species_name = "species",
-                      background_color="grey10",
-                      dot_color="steelblue"){
-
-
-
-  if(grid_provided){
-
-     reds = palette(RColorBrewer::brewer.pal(n = 8, name = "Reds"))[-c(1:3)]
-
-    if (logScale){
-
-      plot(log(grid), col=reds)
-
-    }
-
-    else {
-      plot(grid, col=reds)
-    }
-
-    maps::map("world",add=T, fill = F,bg="grey40",col="grey40")
-    maps::map.axes()
-
-  }
-  else {
-
-    maps::map("world", fill = T,col=background_color)
-    maps::map.axes()
-
-  }
-
-  if(map_occurrences){
-
-
-
-if (length(levels(occurrences$species)) > 1){
-
-      palette(brewer.pal(n = length(species_names), name = "Set2"))
-
-    }
-
-    if (convex_hull) {
-
-      for(i in 1:length(occurrences$species)){
-        xy =  occurrences[occurrences$species==levels(as.factor(occurrences$species))[i],c(long_name,lat_name)]
-        coordinates(xy) <- ~decimalLongitude + decimalLatitude
-        Convex_hull <- rgeos::gConvexHull(xy)
-        proj4string(Convex_hull) <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
-        plot(Convex_hull, add=T, lwd=2, col="grey70")
-
-      }
-
-    points(na.omit(occurrences[,c(long_name, lat_name)]), pch=21, bg=factor(occurrences$species))
-
-  }
-
-
-  }
-
-}
-
-
-
-
-# Example of usage of four functions for three coral species
-
-corals = c("Corallium rubrum", "Paramuricea clavata", "Eunicella singularis")
-
-coral_occ = oceanDivDat(species_names=corals,data_source="OBIS_&_GBIF")
-
-coral_raster = presencesRaster(occurrences = coral_occ, extent = "Mediterranean",
-                              raster_name="Corals", cell_size=5)
-
-
-coral_richness = oceanRichness(coral_occ)
-
-oceanMaps(occurrences=coral_occ, grid_provided=F, map_occurrences = T, convex_hull=T)
-
-oceanMaps(coral_richness, grid_provided=T)
-
-
-
-
-
-
-
-
-
 

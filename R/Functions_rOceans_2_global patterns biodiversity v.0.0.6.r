@@ -1,18 +1,4 @@
-#' Funcion 2.1 oceanDataCheck merges, checks and filters big datasets from OBIS and GBIF
-#' Funcion 2.2 oceanAbundGrid Compute spatial patterns of abundance of occurrences at multiple scales
-#' Funcion 2.3 oceanDiversity Compute spatial patterns of species richness, shannon diversity & simpsons diversity 
-
-require(raster) # Spatial analysis
-require(rgeos) # Spatial analysis
-require(sp) # Spatial analysis
-require(geosphere) # Spatial analysis
-require(maps)
-require(dplyr)
-require(vegan)
-
-require(roxygen2) 
-
-# ROxygen2 block for function #2.1
+#' ROxygen2 block for function #2.1
 #' Function 2.1 oceanDataCheck: merges, checks and filters big datasets from OBIS and GBIF
 #' merges, checks and filters big datasets from OBIS and GBIF
 #'
@@ -28,7 +14,7 @@ require(roxygen2)
 #' @return Object of class data.frame with filtered occurrences
 #' @details The function merges, checks, and filters occurrences data downloaded from OBIS and GBIF
 #' 
-#'
+#' @export
 
 oceanDataCheck = function (source="OBIS", 
                            GBIF_occurrences,
@@ -172,14 +158,7 @@ oceanDataCheck = function (source="OBIS",
 #' @details The function creates downloads occurrences data from the specific sources
 #' and stores them in a data frame.
 #'
-#
-
-## Add the latitudes and longitudes between which each observation is located
-## You can substitute any number of breaks you want. Or, a vector of fixed cutpoints
-## LATgrid and LONgrid are going to be factors. With ugly level names.
-
-# Data is an OBIS downloaded dataset with scientificName, LAt, Long, and "worms_id"
-
+#' @export
 
 oceanAbundGrid = function (occurrences,  
                            lat_name = "decimalLatitude", 
@@ -222,9 +201,6 @@ return(abundance_grid)
 }
 
 #' Function 2.3 oceanDiversity compute spatial patterns of species diversity from occurrences
-
-# ROxygen2 block for function #2.3
-
 #' compute spatial patterns of species diversity from large occurrences datasets 
 #'
 #'
@@ -255,10 +231,8 @@ return(abundance_grid)
 #'
 #' @details The function creates downloads occurrences data from the specific sources
 #' and stores them in a data frame.
-#'
-
-
-# Function 2.3 Computing species richness grid at different spatial scales
+#' 
+#' @export
 
 
 oceanDiversity = function (occurrences, species_name = "scientificName", 
@@ -393,9 +367,42 @@ return(diversity_grid_raster)
 }
 
 
-
-
-### this function is ncluded in set #1 for few species and in set #2 for big data and global analyses. 
+#' Function #1.4 oceanMaps function in progress to plot different outputs of the rOcean package
+#' visualize spatial patterns in marine biodiversity
+#'
+#' @author I. Montero-Serra,  E. Aspillaga, V. Barve, N Barve & K. Kaplan,
+#'
+#' @description to map different metrics computed using functions of the rOcean package
+#'
+#' @param grid raster of species presences, richness, abundance or other metrics.
+#'
+#' @param grid_provided to indicate whether a raster is provided to be mapped
+#'
+#' @param log_scale if True grid values are plotted in a log scale, useful for abundance representations
+#'
+#' @param occurrences species occurrences dataframe with at least latitude and longitude columns
+#'
+#' @param map_occurrences if true, occurrences are mapped for each species
+#'
+#' @param convex_hull if true, a convex hull is computed and mapped for each species of occurrences
+#'
+#' @param long_name column name for longitudes in the "occurrences" dataframe
+#'
+#' @param lat_name column name for latitudes in the "occurrences" dataframe
+#'
+#' @param species_names column name for species names in the "occurrences" dataframe
+#'
+#' @param min_long minimum longitude of the analysis
+#'
+#' @param max_long maximum longitude of the analysis
+#'
+#' @param max_long minimum latitute of the analysis
+#'
+#' @param max_lat maximum latitude of the analysis
+#'
+#' @return The result is a map with the spatial trends
+#'
+#' @export
 
 
 oceanMaps = function (grid, 

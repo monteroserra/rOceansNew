@@ -1,2 +1,0 @@
-data(cars)
-plot(cars)
