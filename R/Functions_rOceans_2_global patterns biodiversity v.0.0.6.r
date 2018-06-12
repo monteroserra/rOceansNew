@@ -2,45 +2,30 @@
 #' Funcion 2.2 oceanAbundGrid Compute spatial patterns of abundance of occurrences at multiple scales
 #' Funcion 2.3 oceanDiversity Compute spatial patterns of species richness, shannon diversity & simpsons diversity 
 
-library(raster) # Spatial analysis
-library(rgeos) # Spatial analysis
-library(sp) # Spatial analysis
-library(geosphere) # Spatial analysis
-
-require(RColorBrewer)
+require(raster) # Spatial analysis
+require(rgeos) # Spatial analysis
+require(sp) # Spatial analysis
+require(geosphere) # Spatial analysis
 require(maps)
+require(dplyr)
+require(vegan)
 
-library(roxygen2) # for Documentation https://www.for.gov.bc.ca/ftp/hts/external/!publish/yuan/LEFI_workshop2017/FLNRO_LiDAR_Workshop/lidar_software_package/r_studio/resources/roxygen_help.html
-
-library(dbplyr)
-library(dplyr)
-
-
-#' Function 2.1 oceanDataCheck: merges, checks and filters big datasets from OBIS and GBIF
+require(roxygen2) 
 
 # ROxygen2 block for function #2.1
-
+#' Function 2.1 oceanDataCheck: merges, checks and filters big datasets from OBIS and GBIF
 #' merges, checks and filters big datasets from OBIS and GBIF
-#'
 #'
 #' @description merges, checks and filters big datasets from OBIS and GBIF
 #'
 #'
 #' @param source source of occurrences, either "OBIS", "GBIF, or "GBIF_&_OBIS"
-#' 
 #' @param GBIF_occurrences a data.frame of downloaded occurrences from GBIF
-#' 
 #' @param OBIS_occurrences a data.frame of downloaded occurrences from ONIS
-#' 
 #' @param remove_duplicates indicates if checking and removing duplicates
-#' 
 #' @param remove_NAs indicates if checking and removing NAs
-#' 
 #' @param remove_NAs indicates if checking and removing land based occurrences  (non marine)
-#' 
 #' @return Object of class data.frame with filtered occurrences
-#'
-#'
 #' @details The function merges, checks, and filters occurrences data downloaded from OBIS and GBIF
 #' 
 #'
@@ -274,10 +259,6 @@ return(abundance_grid)
 
 
 # Function 2.3 Computing species richness grid at different spatial scales
-
-#Packages
-library(dplyr)
-library(vegan)
 
 
 oceanDiversity = function (occurrences, species_name = "scientificName", 
