@@ -2,7 +2,7 @@ Package: rOceansNew
 Type: Package
 Title: Spatial Trends in Marine Biodiversity and Conservation 
 Version: 0.1.0
-Author:  person("Ignasi", "Montero-Serra", email = "monteroserra@gmail.com",
+Author: person("Ignasi", "Montero-Serra", email = "monteroserra@gmail.com",
         role = c("aut", "cre"))
 Maintainer: I. Montero-Serra <monteroserra@gmail.com>
 Description: This packages allows extracting and exploring spatial occurrences for marine species and provide useful toold for analyzing big datasets in marine biodiversity patterns and human stressors. 
@@ -21,7 +21,4 @@ Imports:
     dbplyr,
     robis, 
     rgbif 
-    
-    
-  
-    
+RoxygenNote: 6.0.1
