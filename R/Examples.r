@@ -14,10 +14,6 @@ Acropora_OBIS = read.csv2("Acropora_OBIS.csv", stringsAsFactors = F)
 Acropora_GBIF = read.csv2("Acropora_GBIF.csv", stringsAsFactors = F)
 
 
-Acropora_OBIS$decimalLongitude = as.numeric(Acropora_OBIS$decimalLongitude)
-Acropora_OBIS$decimalLatitude = as.numeric(Acropora_OBIS$decimalLatitude)
-
-
 #Checking, filtering and merging big datasets downloaded directly from OBIS & GBIF
 
 Acropora_OBIS_checked = oceanDataCheck(OBIS_occurrences = Acropora_OBIS, source = "OBIS")
@@ -29,14 +25,26 @@ Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
 
 # Computing abundance grids
 
-Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=1)
+Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=5)
 
-oceanMaps(Acropora_abundance, logScale=T)
+oceanMaps(Acropora_abundance, logScale=T, main="Acropora abundance")
 
 Acropora_richness = oceanDiversity(occurrences = Acropora_Total_Checked, 
                                     diversity_metric = "richness")
 
-oceanMaps(Acropora_richness, logScale=T)
+oceanMaps(Acropora_richness, logScale=T,,main="Acropora richness")
+
+Acropora_Shannon_div = oceanDiversity(occurrences = Acropora_Total_Checked, 
+                                   diversity_metric = "shannon")
+
+
+oceanMaps(Acropora_Shannon_div, logScale=F,main="Acropora Shannon")
+
+Acropora_Simpson_div = oceanDiversity(occurrences = Acropora_Total_Checked, 
+                                      diversity_metric = "simpson")
+
+
+oceanMaps(Acropora_Simpson_div, logScale=F,main="Acropora Simpson")
 
 
 

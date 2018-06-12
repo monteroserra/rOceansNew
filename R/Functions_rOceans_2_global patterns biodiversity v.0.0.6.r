@@ -312,6 +312,31 @@ for(i in 1:length(species)){
   cat(paste(i,"of",length(species),"species", round((i/length(species))*100),"%"), sep="\n")
 }
 
+#Make a raster
+
+if (extent == "global") {
+  grid <- raster(xmn = -180, xmx = 180, ymn = -90, ymx = 90,
+                 nrows=180/cell_size, ncols=360/cell_size)
+  
+}
+
+if (extent == "manual") {
+  
+  grid <- raster(xmn = min_long, xmx = max_long , ymn = min_lat, ymx = max_lat,
+                 nrows=(max_lat-min_lat)/cell_size, ncols=(max_long-min_long)/cell_size)
+  
+}
+
+if (extent == "Mediterranean") {
+  
+  grid <- raster(xmn = -7, xmx = 37, ymn = 30, ymx = 50,
+                 nrows=(20)/cell_size, ncols=(45)/cell_size)
+}
+
+
+
+
+
 # Here we get a presence/absence mx from species abundance mx and compute species richness per cell
 
 if(diversity_metric == "richness"){
@@ -322,11 +347,6 @@ richness = rowSums(sps_presence_matrix) #Sum al species-presence columns
 
 richness_df = data.frame(richness, sps_abund_matrix$decimalLongitude,
                           sps_abund_matrix$decimalLatitude)
-
-
-grid <- raster(xmn = min_long, xmx = max_long , ymn = min_lat, ymx = max_lat,
-               nrows=(max_lat-min_lat)/cell_size, ncols=(max_long-min_long)/cell_size)
-
 
 diversity_grid_raster = rasterize(richness_df[,c(2,3)], grid,
                                 field=richness_df$richness, fun='last', background=NA)
@@ -346,6 +366,7 @@ shannon_df = data.frame(shannon_values, sps_abund_matrix$decimalLongitude,
 
 diversity_grid_raster = rasterize(shannon_df[,c(2,3)], grid,
                                   field=shannon_df$shannon_values, fun='last', background=NA)
+
 
 }
 
@@ -390,14 +411,15 @@ oceanMaps = function (grid,
                       species_name = "species",
                       background_color="grey10", 
                       dot_color="steelblue", 
-                      low_color="#006400", 
-                      mid_color="#FFB90F",
-                      high_color= "#8B0000", 
-                      number_col_steps=20){
+                      low_color="steelblue", 
+                      mid_color="gold",
+                      high_color= "firebrick", 
+                      col_steps=20, 
+                      main=""){
   
 ## color gradient function
-color.gradient <- function(x, colors=c(low_color,mid_color,high_color), colsteps=number_col_steps) {
-    return( colorRampPalette(colors) (colsteps) [ findInterval(x, seq(min(x),max(x), length.out=colsteps)) ] )
+color.gradient <- function(x, colors=c(low_color,mid_color,high_color), colsteps=col_steps) {
+    return(colorRampPalette(colors) (colsteps) [ findInterval(x, seq(min(x),max(x), length.out=colsteps)) ] )
   }
   
   
@@ -408,12 +430,12 @@ if(grid_provided){
     
     if (logScale){
       
-      plot(log(grid), col=cols)
+      plot(log(grid), col=cols, main=main)
       
     } 
     
     else {
-      plot(grid, col=cols)
+      plot(grid, col=cols, main=main)
     }
     
     maps::map("world",add=T, fill = T,bg="grey20",col="grey30")
@@ -433,7 +455,7 @@ if(grid_provided){
     
     if (length(levels(occurrences$species)) > 1){
       
-      palette(brewer.pal(n = length(species_names), name = "Set2"))
+      palette(color.gradient(1:20))
       
     }
     
