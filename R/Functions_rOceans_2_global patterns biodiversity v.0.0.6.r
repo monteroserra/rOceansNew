@@ -287,7 +287,7 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
                               min_long = -180, max_long = 180,
                               min_lat = -90,   max_lat = 90, 
                               diversity_metric="richness") {
-  occurrences = Acropora_Total_Checked
+
 
 #for richness matrices, we can make a loop to split the database for each species and make the same computation
   
@@ -328,7 +328,7 @@ for(i in 1:length(species)){
   dataMerge[is.na(dataMerge)] <- 0
   sps_abund_matrix$species_abundance = dataMerge$count
   colnames(sps_abund_matrix)[5+i] <- paste(species_id)
-  cat(paste(i,"of",length(species),"species"), sep="\n")
+  cat(paste(i,"of",length(species),"species", round((i/length(species))*100),"%"), sep="\n")
 }
 
 # Here we get a presence/absence mx from species abundance mx and compute species richness per cell
@@ -408,25 +408,34 @@ oceanMaps = function (grid,
                       min_lat = -90, max_lat = 90,
                       species_name = "species",
                       background_color="grey10", 
-                      dot_color="steelblue"){
+                      dot_color="steelblue", 
+                      low_color="#006400", 
+                      mid_color="#FFB90F",
+                      high_color= "#8B0000", 
+                      number_col_steps=20){
+  
+## color gradient function
+color.gradient <- function(x, colors=c(low_color,mid_color,high_color), colsteps=number_col_steps) {
+    return( colorRampPalette(colors) (colsteps) [ findInterval(x, seq(min(x),max(x), length.out=colsteps)) ] )
+  }
   
   
+cols = color.gradient(1:20)
   
-  if(grid_provided){
-    
-    reds = palette(RColorBrewer::brewer.pal(n = 8, name = "Reds"))[-c(1:3)]
+if(grid_provided){
+  
     
     if (logScale){
       
-      plot(log(grid), col=reds)
+      plot(log(grid), col=cols)
       
     } 
     
     else {
-      plot(grid, col=reds)
+      plot(grid, col=cols)
     }
     
-    maps::map("world",add=T, fill = F,bg="grey40",col="grey40")
+    maps::map("world",add=T, fill = T,bg="grey20",col="grey30")
     maps::map.axes()
     
   }

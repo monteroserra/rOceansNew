@@ -29,7 +29,7 @@ Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
 
 # Computing abundance grids
 
-Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked)
+Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=1)
 
 oceanMaps(Acropora_abundance, logScale=T)
 
@@ -40,8 +40,20 @@ oceanMaps(Acropora_richness, logScale=T)
 
 
 
+# Example Bryozoa
+
+setwd("C:/Users/monteroserra/Desktop/rOceans Google Summer Code/Example Bryozoa")
+
+Bryozoa_OBIS = read.csv2("Bryozoa_OBIS.csv", stringsAsFactors = F, sep=",")
 
 
+Bryozoa_OBIS_checked = oceanDataCheck(OBIS_occurrences = Bryozoa_OBIS, source = "OBIS")
 
+
+Bryozoa_abundance = oceanAbundGrid(occurrences = Bryozoa_OBIS_checked, cell_size=10)
+oceanMaps(Bryozoa_abundance, logScale=T, low_color = "steelblue")
+
+Bryozoa_richness = oceanDiversity(occurrences = Bryozoa_OBIS_checked)
+oceanMaps(Bryozoa_richness, logScale=T, low_color = "steelblue")
 
 
