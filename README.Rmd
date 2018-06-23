@@ -1,18 +1,19 @@
 ---
 tittle: rOceansNew - Examples
 author: I. Montero-Serra
-output:
-  pdf_document: default
-  html_document: default
+date: 22/Jun/2018
+output: html_document
 ---
 
 ## rOceans 
 An R Package for exploring spatial trends in marine biodiversity and conservation. Here
 have examples of functions to access and explore spatial patterns of marine biodiversity. 
-The functions are separated in set #1 for single or few species analyses; and set #2 for
+The functions are separated in set #1 for single or few species analyses and set #2 for
 analyzing large data sets downloaded from OBIS or GBIF. 
 
-Downloading rOceansNew from GitHub and loading the package
+*Currently, working on further set of functions to access and explore spatial data on climate change and other stressors as well as MPAs coverage. 
+
+(1) Download rOceansNew from GitHub and load the package
 ```{r}
 
 devtools::install_github("monteroserra/rOceansNew")
