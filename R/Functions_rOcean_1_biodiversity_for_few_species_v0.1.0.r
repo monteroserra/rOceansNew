@@ -255,6 +255,8 @@ return(speciesRaster)
 #'
 #' @details
 #' @export
+#' 
+
 
 oceanRichness = function(occurrences, species_name = "species",
                          long_name = "decimalLongitude",

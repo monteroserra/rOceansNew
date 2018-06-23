@@ -35,7 +35,7 @@ cell_size = 5º).
 
 
 ```{r}
-# Define target species names: example with two corals
+# Define target species names: example with three corals
 coral_species = c("Corallium rubrum", "Acropora palmata", "Paramuricea clavata")
 
 # Get, merge and filter occurrences using oceanDivDat()
@@ -79,7 +79,7 @@ Acropora_GBIF = read.csv2("Acropora_GBIF.csv", stringsAsFactors = F)
 ```
 
 
-Checking, filtering and merging the raw data into a common standard database. 
+Function 2.1 *oceanDataCheck* Allows merging, checking, filtering the raw data from OBIS and/or GBIF into a common standard database. 
 
 ```{r}
 
@@ -94,9 +94,11 @@ Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
 
 ```
 
+Function 2.2 *oceanAbundGrid* Allows creating global or delimited spatial grids with abundance
+of occurrences per cell at differenc cell sizes. 
 
 ```{r}
-# Computing abundance grids
+# Computing global rasters of abundance
 
 Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=5)
 
@@ -106,15 +108,31 @@ oceanMaps(Acropora_abundance, logScale=T, main="Acropora abundance")
 ```
 
 
+Function 2.3 *oceanDeiversity* Allows computing several diversity metrics (shannon, richness, simpson) for global or delimited areas. 
+
 ```{r}
 
-# Computing abundance grids: example: shannon diversity
-
-oceanMaps(Acropora_richness, logScale=T,main="Acropora richness")
+# Computing global rasters of diversity metrics: example shannon diversity of Acropora species
 
 Acropora_Shannon_div = oceanDiversity(occurrences = Acropora_Total_Checked,
                                    diversity_metric = "shannon")
+
+oceanMaps(Acropora_Shannon_div, logScale=T,main="Acropora Shannon")
 ```
+
+
+
+# Functions 3: accessing and exploring current and future environmental data (in progress). 
+
+
+Function 3.1 
+
+
+
+
+
+
+
 
 
 
