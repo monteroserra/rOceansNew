@@ -10,25 +10,24 @@ output:
 An R Package for exploring spatial trends in marine biodiversity and conservation. Here
 have examples of functions to access and explore spatial patterns of marine biodiversity. 
 The functions are separated in set #1 for single or few species analyses; and set #2 for
-analyzing large datasets downloaded from OBIS or GBIF. 
+analyzing large data sets downloaded from OBIS or GBIF. 
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
-
-```{r, echo = FALSE}
-knitr::opts_chunk$set(
-  collapse = TRUE,
-  comment = "#>",
-  fig.path = "README-"
-)
-```
-
-# Functions #1 Accessing and exploring data for single / few marine species
-
-
+Downloading rOceansNew from GitHub and loading the package
 ```{r}
 
 devtools::install_github("monteroserra/rOceansNew")
 library(rOceansNew)
+
+````
+
+# Functions 1: Accessing and exploring data for single / few marine species
+
+The first function ()
+
+
+```{r}
+
+
 
 # Define target speices names: example with two corals
 coral_species = c("Corallium rubrum", "Acropora palmata")
