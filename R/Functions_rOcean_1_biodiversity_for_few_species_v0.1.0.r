@@ -170,6 +170,9 @@ presencesRaster <- function (occurrences,
                              min_long = -180, max_long = 180,
                              min_lat = -90, max_lat = 90,
                              raster_name="", cell_size=5) {
+  
+  
+  occurrences = corals
   occurrences = na.omit(occurrences)
   species_data_xy = c()
 
@@ -209,18 +212,18 @@ if (extent == "manual"){
 spatial_occ <- SpatialPoints(coords = species_data_xy)
 projection(spatial_occ)<-CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
 
+# set the background cells in the raster to 0
+grid[!is.na(grid)] <- 0
 
-  # set the background cells in the raster to 0
-  grid[!is.na(grid)] <- 0
+#set the cells that contain points to 1
+speciesRaster <- rasterize(spatial_occ,grid,field=1)
+speciesRaster <- merge(speciesRaster,grid)
 
-  #set the cells that contain points to 1
-  speciesRaster <- rasterize(spatial_occ,grid,field=1)
-  speciesRaster <- merge(speciesRaster,grid)
-
-  #label the raster
-  names(speciesRaster) <- raster_name
-  return(speciesRaster)
+#label the raster
+names(speciesRaster) <- raster_name
+return(speciesRaster)
 }
+
 
 
 #' Function #1.3 oceanRichness creates a richness layer from occurrence data
