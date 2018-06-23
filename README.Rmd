@@ -11,3 +11,6 @@ knitr::opts_chunk$set(
   fig.path = "README-"
 )
 ```
+
+
+This is a trial for the readme file

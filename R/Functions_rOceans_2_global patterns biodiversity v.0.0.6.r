@@ -71,7 +71,7 @@ oceanDataCheck = function (source="OBIS",
   
   if(remove_duplicates){
     
-    occurrences_filtered <- distinct(occurrences, scientificName, decimalLongitude,
+    occurrences_filtered <- dplyr::distinct(occurrences, scientificName, decimalLongitude,
                              decimalLatitude,institutionCode,institutionCode) # Deleting duplicates
     
     cat(paste(nrow(occurrences)-nrow(occurrences_filtered),"duplicate data points were deleted"),sep="\n")

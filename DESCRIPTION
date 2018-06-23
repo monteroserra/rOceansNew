@@ -10,7 +10,7 @@ Depends: R (>= 3.1.0)
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
-Imports:
+Depends:
     raster,
     rgeos,
     sp, 

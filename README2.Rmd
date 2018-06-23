@@ -1,0 +1,36 @@
+---
+output:
+  pdf_document: default
+  html_document: default
+tittle: rOceansNew - Documentation
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+
+This is a trial of the readme file that should explain usage of the different functions 
+included in the package. 
+
+```{r}
+
+devtools::install_github("monteroserra/rOceansNew")
+library(rOceansNew)
+
+# Here we need to upload the databases downloaded from OBIS and GBIF 
+# (example stored in rOceansData at GitHub)
+
+setwd("C:/Users/monteroserra/Desktop/rOceans Google Summer Code/Example_Acropora")
+Acropora_OBIS = read.csv2("Acropora_OBIS.csv", stringsAsFactors = F)
+Acropora_GBIF = read.csv2("Acropora_GBIF.csv", stringsAsFactors = F)
+
+
+```
+
