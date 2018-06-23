@@ -23,11 +23,10 @@ library(rOceansNew)
 
 # Functions 1: Accessing and exploring data for single / few marine species
 
-The first function ()
+The first function called "oceanDivDat"" allows accessing occurrence data from GBIF and OBIS for a given vector of species names. It also allows merging data from these two sources and removing duplicates as well as land-based occurrences. 
 
 
 ```{r}
-
 
 
 # Define target speices names: example with two corals
