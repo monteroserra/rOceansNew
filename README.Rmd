@@ -21,9 +21,17 @@ library(rOceansNew)
 
 ````
 
-# First set of functions for accessing and exploring data for single/few marine species
+# Functions 1: accessing and exploring data for single/few marine species
 
-Function #1.1, called *oceanDivDat* allows accessing occurrence data from GBIF and OBIS for a given vector of species names. It also allows merging data from these two sources and removing duplicates as well as land-based occurrences. 
+(1.1) Function #1.1 *oceanDivDat* allows accessing occurrence data from GBIF and OBIS for a given vector of species names. It also allows merging data from these two sources and removing duplicates as well as land-based occurrences. 
+
+(1.2) Function #1.2 *presenceRaster* creates a presence / absence raster from occurrence data. We can use *cell_size* to specify the sieze of cells within the grid (by default 
+cell_size = 5º).
+
+(1.3) Function #1.3 *oceanRichness* creates a species richness raster from occurrence data of multiple species. We can use *cell_size* to specify the sieze of cells within the grid (by default cell_size = 5º). 
+
+(1.4) Function #1.4 *oceanMaps* is a versatile data mapping function for a rapid visualization of marine biodiversity patterns previously computed.  
+
 
 
 ```{r}
@@ -39,45 +47,22 @@ corals = oceanDivDat(species_names = coral_species,
 
 head(corals)
 
-```
-
-Function #1.2, called *presenceRaster* creates a presence / absence raster from occurrence data. We can use *cell_size* to specify the sieze of cells within the grid (by default 
-cell_size = 5º). 
-
-```{r}
-
 corals_presence = presencesRaster(occurrences=corals, 
                                          cell_size=5)
-
-
-```
-
-
-Function #1.3, called *oceanRichness* creates a species richness raster from occurrence data of multiple species. We can use *cell_size* to specify the sieze of cells within the grid (by default cell_size = 5º). 
-
-```{r}
+oceanMaps(corals_presence)
 
 corals_richness = oceanRichness(occurrences=corals, 
-                                cell_size=5, 
-                                richness_map = T)
+                                cell_size=5)
 
-```
-
-
-Function #1.4, called *oceanMaps* is a versatile data mapping function for a rapid visualization of marine biodiversity patterns previously computed.  
-
-
-```{r}
-
-oceanMaps(corals_presence)
 
 oceanMaps(corals_richness)
 
+
+
 ```
 
 
-# Functions #2: data check, filter & analyses of large datasets of marine distribution data from OBIS and GBIF.
-
+# Functions 2: merging, checking & filtering large biogeographic datasets and analyzing spatial trends in marine biodiversity
 
 
 First, we need to access and download data from GBIF (www.gbif.org) and OBIS (www.iobis.org). 
@@ -111,7 +96,26 @@ Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
 
 
 ```{r}
+# Computing abundance grids
+
+Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=5)
+
+oceanMaps(Acropora_abundance, logScale=T, main="Acropora abundance")
 
 
 ```
+
+
+```{r}
+
+# Computing abundance grids: example: shannon diversity
+
+oceanMaps(Acropora_richness, logScale=T,main="Acropora richness")
+
+Acropora_Shannon_div = oceanDiversity(occurrences = Acropora_Total_Checked,
+                                   diversity_metric = "shannon")
+```
+
+
+
 
