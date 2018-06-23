@@ -70,10 +70,10 @@ Here I show an example with data of species within the genus *Acropora* download
 
 ```{r}
 
-#read the data setting stringsAsFactors = F to avoid issues when reading wrong coordiantes. 
+# Example of direct downloaded raw occurrences of Acropora species from GBIF and OBIS
 
-Acropora_OBIS = read.csv2("Acropora_OBIS.csv", stringsAsFactors = F)
-Acropora_GBIF = read.csv2("Acropora_GBIF.csv", stringsAsFactors = F)
+data(Acropora_GBIF) 
+data(Acropora_OBIS)
 
 
 ```
