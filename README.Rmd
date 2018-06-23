@@ -1,6 +1,16 @@
 ---
-output: github_document
+tittle: rOceansNew - Examples
+author: I. Montero-Serra
+output:
+  pdf_document: default
+  html_document: default
 ---
+
+## rOceans 
+An R Package for exploring spatial trends in marine biodiversity and conservation. Here
+have examples of functions to access and explore spatial patterns of marine biodiversity. 
+The functions are separated in set #1 for single or few species analyses; and set #2 for
+analyzing large datasets downloaded from OBIS or GBIF. 
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
@@ -12,5 +22,38 @@ knitr::opts_chunk$set(
 )
 ```
 
+# Functions #1 Accessing and exploring data for single / few marine species
 
-This is a trial for the readme file
+
+```{r}
+
+devtools::install_github("monteroserra/rOceansNew")
+library(rOceansNew)
+
+# Define target speices names: example with two corals
+coral_species = c("Corallium rubrum", "Acropora palmata")
+
+# Get occurrences 
+corals = oceanDivDat(species_names = coral_species,
+                     data_source = "OBIS_&_GBIF", 
+                     remove_duplicates = T, 
+                     remove_land_dots = T)
+
+head(corals)
+
+corals_presence = presencesRaster(occurrences=corals, 
+                                         cell_size=5)
+
+oceanMaps(corals_presence)
+
+
+corals_richness = oceanRichness(occurrences=corals, 
+                                cell_size=5, 
+                                richness_map = T)
+
+
+oceanMaps(corals_richness)
+
+
+```
+

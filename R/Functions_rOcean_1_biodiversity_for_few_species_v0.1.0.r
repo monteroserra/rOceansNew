@@ -172,7 +172,6 @@ presencesRaster <- function (occurrences,
                              raster_name="", cell_size=5) {
   
   
-  occurrences = corals
   occurrences = na.omit(occurrences)
   species_data_xy = c()
 
@@ -265,7 +264,8 @@ oceanRichness = function(occurrences, species_name = "species",
                          min_lat = -90, max_lat = 90,
                          cell_size=5, richness_map=F){
 
-
+  
+  
   multilayers = stack()
 
   species_names = unique((occurrences[,species_name]))
@@ -280,6 +280,9 @@ for(i in 1:length(species_names)){
 
 
 raster_richness = stackApply(multilayers, 1, fun = sum)
+
+raster_richness[raster_richness==0] <- NA
+
 
 if(richness_map) {
   plot(raster_richness)
