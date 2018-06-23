@@ -57,8 +57,6 @@ my_occurrences <- plyr::ldply(species_names, function(i) {
 
 if (data_source == "OBIS_&_GBIF"){
 
-  corals
-
 my_occurrences_GBIF= data.frame()
 my_occurrences_GBIF <- plyr::ldply(species_names, function(i) {
     GBIF_info <- occ_search(scientificName = i)
