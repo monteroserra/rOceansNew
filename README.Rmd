@@ -23,16 +23,19 @@ library(rOceansNew)
 
 # Functions 1: 
 ## Accessing and exploring data for single/few marine species
-### 3
-(1.1) Function #1.1 *oceanDivDat* allows accessing occurrence data from GBIF and OBIS for a given vector of species names. It also allows merging data from these two sources and removing duplicates as well as land-based occurrences. 
 
-(1.2) Function #1.2 *presenceRaster* creates a presence / absence raster from occurrence data. We can use *cell_size* to specify the sieze of cells within the grid (by default 
+### Function 1.1 *oceanDivDat* 
+Allows accessing occurrence data from GBIF and OBIS for a given vector of species names. It also allows merging data from these two sources and removing duplicates as well as land-based occurrences. 
+
+### Function 1.2 *presenceRaster* 
+Creates a presence / absence raster from occurrence data. We can use *cell_size* to specify the sieze of cells within the grid (by default 
 cell_size = 5º).
 
-(1.3) Function #1.3 *oceanRichness* creates a species richness raster from occurrence data of multiple species. We can use *cell_size* to specify the sieze of cells within the grid (by default cell_size = 5º). 
+### Function 1.3 *oceanRichness* 
+Creates a species richness raster from occurrence data of multiple species. We can use *cell_size* to specify the sieze of cells within the grid (by default cell_size = 5º). 
 
-(1.4) Function #1.4 *oceanMaps* is a versatile data mapping function for a rapid visualization of marine biodiversity patterns previously computed.  
-
+### Function 1.4 *oceanMaps*  
+A versatile data mapping tool for a rapid visualization of marine biodiversity patterns previously computed.  
 
 
 ```{r}
@@ -58,10 +61,7 @@ corals_richness = oceanRichness(occurrences=corals,
 
 oceanMaps(corals_richness)
 
-
-
 ```
-
 
 # Functions 2: 
 ## Merging, checking & filtering large biogeographic datasets and analyzing spatial trends in marine biodiversity
@@ -74,7 +74,6 @@ For this set of functions, first we need to access and download data from GBIF (
 
 data(Acropora_GBIF) 
 data(Acropora_OBIS)
-
 
 ```
 
@@ -90,8 +89,6 @@ Acropora_GBIF_checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF, source 
 Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
                                         OBIS_occurrences = Acropora_OBIS,
                                         source = "GBIF_&_OBIS")
-
-
 
 ```
 
