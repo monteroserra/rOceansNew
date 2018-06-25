@@ -5,7 +5,7 @@ date: 22/Jun/2018
 output: html_document
 ---
 
-## rOceans 
+# rOceans 
 An R Package for exploring spatial trends in marine biodiversity and conservation. Here
 have examples of functions to access and explore spatial patterns of marine biodiversity. 
 The functions are separated in set #1 for single or few species analyses and set #2 for
@@ -21,8 +21,8 @@ library(rOceansNew)
 
 ````
 
-# Functions 1: accessing and exploring data for single/few marine species
-
+## Functions 1: accessing and exploring data for single/few marine species
+###2222
 (1.1) Function #1.1 *oceanDivDat* allows accessing occurrence data from GBIF and OBIS for a given vector of species names. It also allows merging data from these two sources and removing duplicates as well as land-based occurrences. 
 
 (1.2) Function #1.2 *presenceRaster* creates a presence / absence raster from occurrence data. We can use *cell_size* to specify the sieze of cells within the grid (by default 
