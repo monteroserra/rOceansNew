@@ -131,7 +131,18 @@ drivers of marine biodiversity patterns
 
 # Using the previous example on abundance and diversity of Acropora species
 
+#Load data
+data(Acropora_GBIF)
+data(Acropora_OBIS)
 
+#Check, merge and filter
+Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
+                                        OBIS_occurrences = Acropora_OBIS,
+                                        source = "GBIF_&_OBIS")
+#Compute abundance grid
+Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=5)
+
+#Acces and link environmental parameters
 
 
 
