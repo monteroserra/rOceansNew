@@ -100,6 +100,7 @@ oceanDataCheck = function (source="OBIS",
     fil <- basename(URL)
     if (!file.exists(fil)) download.file(URL, fil)
     fils <- unzip(fil)
+    
     oceans <- rgdal::readOGR(grep("shp$", fils, value=TRUE), "ne_110m_ocean",
                              stringsAsFactors=FALSE, verbose=FALSE)
     
