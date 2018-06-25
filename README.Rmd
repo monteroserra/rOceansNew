@@ -131,7 +131,7 @@ drivers of marine biodiversity patterns
 
 # Using the previous example on abundance and diversity of Acropora species
 
-#Load data
+# Computing abundance grids
 data(Acropora_GBIF)
 data(Acropora_OBIS)
 
@@ -142,12 +142,29 @@ Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
 #Compute abundance grid
 Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=5)
 
-#Acces and link environmental parameters
+#Visualize abundance
+oceanMaps(Acropora_abundance, logScale=T, main="Acropora abundance")
 
+# getting envioronmental parameters and linking them to biodiversity patterns
+abundance_environ_df = oceanEnv(biod_grid = Acropora_abundance,
+                       biodiv_metric = "abundance", 
+                       plot=T, 
+                       log_scale=T)
+  
+# to see the full list of avilable parameters (326)
+
+env_variables = sdmpredictors::list_layers()
+marine_layers = env_variables[env_variables$marine==T, ]
+
+# you can specify alternative environmental parameters using env_parameters
 
 
 ```
 
+
+Function 3.2: accessing climate change projections and linking them to biodiversity layers
+ 
+(in construction)
 
 
 
