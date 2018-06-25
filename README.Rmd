@@ -22,8 +22,8 @@ library(rOceansNew)
 ````
 
 # Functions 1: 
-##Accessing and exploring data for single/few marine species
-
+## Accessing and exploring data for single/few marine species
+### 3
 (1.1) Function #1.1 *oceanDivDat* allows accessing occurrence data from GBIF and OBIS for a given vector of species names. It also allows merging data from these two sources and removing duplicates as well as land-based occurrences. 
 
 (1.2) Function #1.2 *presenceRaster* creates a presence / absence raster from occurrence data. We can use *cell_size* to specify the sieze of cells within the grid (by default 
@@ -66,9 +66,7 @@ oceanMaps(corals_richness)
 # Functions 2: 
 ## Merging, checking & filtering large biogeographic datasets and analyzing spatial trends in marine biodiversity
 
-
-First, we need to access and download data from GBIF (www.gbif.org) and OBIS (www.iobis.org). 
-Here I show an example with data of species within the genus *Acropora* downloaded from the website. The data can be accessed from my GitHub repository "monteroserra/rOceanData"
+For this set of functions, first we need to access and download data from GBIF (www.gbif.org) and OBIS (www.iobis.org). Here I show an example with data of species within the genus *Acropora* downloaded from the website on June 2018. The data can be accessed from my GitHub repository "monteroserra/rOceanData" or using data()
 
 ```{r}
 
@@ -81,7 +79,8 @@ data(Acropora_OBIS)
 ```
 
 
-Function 2.1 *oceanDataCheck* Allows merging, checking, filtering the raw data from OBIS and/or GBIF into a common standard database. 
+## Function 2.1 *oceanDataCheck* 
+Allows merging, checking, filtering the raw data from OBIS and/or GBIF into a common standard database. 
 
 ```{r}
 
@@ -96,7 +95,8 @@ Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
 
 ```
 
-Function 2.2 *oceanAbundGrid* Allows creating global or delimited spatial grids with abundance
+## Function 2.2 *oceanAbundGrid* 
+Allows creating global or delimited spatial grids with abundance
 of occurrences per cell at differenc cell sizes. 
 
 ```{r}
@@ -110,7 +110,8 @@ oceanMaps(Acropora_abundance, logScale=T, main="Acropora abundance")
 ```
 
 
-Function 2.3 *oceanDeiversity* Allows computing several diversity metrics (shannon, richness, simpson) for global or delimited areas. 
+## Function 2.3 *oceanDeiversity* 
+Allows computing several diversity metrics (shannon, richness, simpson) for global or delimited areas. 
 
 ```{r}
 
@@ -124,10 +125,11 @@ oceanMaps(Acropora_Shannon_div, logScale=T,main="Acropora Shannon")
 
 
 # Functions 3: 
-##Accessing and exploring current and future environmental data (in progress). 
+## Accessing and exploring current and future environmental data (in progress). 
 
 
-Function 3.1: accessing environmental layers at present conditions to explore and test potential
+## Function 3.1 *oceanEnv* 
+Allows accessing environmental layers at present conditions to explore and test potential
 drivers of marine biodiversity patterns
 
 ```{r}
@@ -165,7 +167,8 @@ marine_layers = env_variables[env_variables$marine==T, ]
 ```
 
 
-Function 3.2: accessing climate change projections and linking them to biodiversity layers
+## Function 3.2: *oceanWarming*
+Allows accessing climate change projections and linking them to biodiversity layers
  
 (in construction)
 
