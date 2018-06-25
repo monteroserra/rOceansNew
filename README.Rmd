@@ -121,12 +121,21 @@ oceanMaps(Acropora_Shannon_div, logScale=T,main="Acropora Shannon")
 ```
 
 
-
 # Functions 3: accessing and exploring current and future environmental data (in progress). 
 
 
-Function 3.1 
+Function 3.1: accessing environmental layers at present conditions to explore and test potential
+drivers of marine biodiversity patterns
 
+```{r}
+
+# Using the previous example on abundance and diversity of Acropora species
+
+
+
+
+
+```
 
 
 
