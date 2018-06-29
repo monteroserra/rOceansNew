@@ -171,9 +171,15 @@ Allows accessing, analyzing and mapping future trends in temeperature and other 
 # Accessing and mapping expected increases in Sea Surface Temperature data for 2100 according
 # to different IPCC scenarios
 
-SST_2100_RCP8.5 = oceanFuture(warming_scenario = "RCP85")
-SST_2100_RCP4.5 = oceanFuture(warming_scenario = "RCP45")
-SST_2100_RCP2.5 = oceanFuture(warming_scenario = "RCP25")
+SST_2100_RCP8.5 = oceanFuture()
+SST_2100_RCP4.5 = oceanFuture(IPCC_scenario = "RCP45")
+SST_2100_RCP2.5 = oceanFuture(IPCC_scenario = "RCP25")
+
+
+
+# you can check other available enviornmental parameters
+env_variables = sdmpredictors::list_layers()
+marine_layers = env_variables[env_variables$marine==T, ]
 
 
 ```

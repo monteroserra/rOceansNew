@@ -171,7 +171,7 @@ oceanFuture = function (env_parameter = "BO2_tempmean_ss",
   } else {
     
     
-    study_area <- raster(xmn = 0, xmx = 360 , ymn = -90, ymx = 90)
+    study_area <- raster(xmn = -180, xmx = 180 , ymn = -90, ymx = 90)
   }
   
   
