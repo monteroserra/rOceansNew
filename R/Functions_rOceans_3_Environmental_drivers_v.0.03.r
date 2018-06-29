@@ -139,7 +139,7 @@ oceanFuture = function (env_parameter = "BO2_tempmean_ss",
   # future conditions (only working with a single metric so far)
   
   
-  future_layer_code <- get_future_layers(current_layer_codes =variable,
+  future_layer_code <- get_future_layers(current_layer_codes =env_parameter,
                                          scenario = IPCC_scenario, 
                                          year = year_proj)$layer_code
   
@@ -147,7 +147,7 @@ oceanFuture = function (env_parameter = "BO2_tempmean_ss",
   future_grid <- sdmpredictors::load_layers(future_layer_code) 
   
   
-  present_grid <- sdmpredictors::load_layers(variable) 
+  present_grid <- sdmpredictors::load_layers(env_parameter) 
   
   
   change_grid = future_grid - present_grid
@@ -175,9 +175,7 @@ oceanFuture = function (env_parameter = "BO2_tempmean_ss",
   }
   
   
-  
-  
-  defined_grid = crop(change_grid, study_area)
+defined_grid = crop(change_grid, study_area)
   
   if (reshappe) {
     
