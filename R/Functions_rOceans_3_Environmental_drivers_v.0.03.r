@@ -99,7 +99,7 @@ par(mfrow=c(1,1))
 
 
 #' ROxygen2 block for function #3.2
-#' Function 3.2 oceanWarming: downloads process future trends in climatic and other variables
+#' Function 3.2 oceanFuture: downloads process future trends in climatic and other variables
 #'
 #' @description downloads and explore environmental tredns according to IPCC climate change projections
 #'

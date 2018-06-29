@@ -164,7 +164,7 @@ marine_layers = env_variables[env_variables$marine==T, ]
 ```
 
 
-## Function 3.2: *oceanWarming*
+## Function 3.2: *oceanFuture*
 Allows accessing, analyzing and mapping future trends in temeperature and other environmental parameters according to different IPCC scenarios
 
 ```{r}
