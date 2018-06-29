@@ -115,9 +115,8 @@ par(mfrow=c(1,1))
 #' @param new_cell_size specific cell_size of the resulting spatial grid
 #' @param map whether we want the resulting spatial grid of future trends to be mapped
 #' 
-#' @return Object of class data.frame with biodiversity metrics, coordinates and environemntal variables
-#' @details This function allows accessing and exploring environmental parameters and their relationship
-#' with marine biodiversity patterns.
+#' @return Object of raster with expected changes in environmental variables
+#' @details This function allows accessing and exploring expected changes environmental parameters 
 #' @export
 
 
