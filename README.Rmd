@@ -165,14 +165,18 @@ marine_layers = env_variables[env_variables$marine==T, ]
 
 
 ## Function 3.2: *oceanWarming*
-Allows accessing climate change projections and linking them to biodiversity layers
- 
-(in construction)
+Allows accessing, analyzing and mapping future trends in temeperature and other environmental parameters according to different IPCC scenarios
+
+```{r}
+# Accessing and mapping expected increases in Sea Surface Temperature data for 2100 according
+# to different IPCC scenarios
+
+SST_2100_RCP8.5 = oceanFuture(warming_scenario = "RCP85")
+SST_2100_RCP4.5 = oceanFuture(warming_scenario = "RCP45")
+SST_2100_RCP2.5 = oceanFuture(warming_scenario = "RCP25")
 
 
-
-
-
+```
 
 
 
