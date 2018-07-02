@@ -177,9 +177,21 @@ SST_2100_RCP2.5 = oceanFuture(IPCC_scenario = "RCP25")
 
 
 
-# you can check other available enviornmental parameters
-env_variables = sdmpredictors::list_layers()
-marine_layers = env_variables[env_variables$marine==T, ]
+# you can check other available enviornmental parameters with avaialable future projections
+
+env_variables_future = sdmpredictors::list_layers_future()
+
+#Ex Maximum Surface Salinity
+Surface_Salinity_max_2100_RCP8.5 = oceanFuture(env_parameter = "BO2_salinitymax_ss")
+
+#IPCC RCP4.5
+Surface_Salinity_max_2100_RCP2.5 = oceanFuture(env_parameter = "BO2_salinitymax_ss", 
+                                               IPCC_scenario = "RCP45")
+
+
+
+#Ice thick
+Ice_thick_trends_2100_RCP8.5 = oceanFuture(env_parameter = "BO2_icethickmax_ss")
 
 
 ```

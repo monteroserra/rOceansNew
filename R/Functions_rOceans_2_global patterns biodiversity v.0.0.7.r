@@ -96,13 +96,7 @@ oceanDataCheck = function (source="OBIS",
   
   if(remove_land_occ)  {
     
-    URL <- "http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/physical/ne_110m_ocean.zip"
-    fil <- basename(URL)
-    if (!file.exists(fil)) download.file(URL, fil)
-    fils <- unzip(fil)
-    
-    oceans <- rgdal::readOGR(grep("shp$", fils, value=TRUE), "ne_110m_ocean",
-                             stringsAsFactors=FALSE, verbose=FALSE)
+    data(oceans)
     
     spatial_occ <- SpatialPoints(coords = occurrences[,c("decimalLongitude","decimalLatitude")])
     projection(spatial_occ)<-CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
