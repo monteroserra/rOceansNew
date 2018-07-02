@@ -108,13 +108,7 @@ my_occurrences = my_occurrences2
 
 if(remove_land_dots)  {
 
-  URL <- "http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/110m/physical/ne_110m_ocean.zip"
-  fil <- basename(URL)
-  if (!file.exists(fil)) download.file(URL, fil)
-  fils <- unzip(fil)
-  oceans <- readOGR(grep("shp$", fils, value=TRUE), "ne_110m_ocean",
-                    stringsAsFactors=FALSE, verbose=FALSE)
-
+data(oceans)
 
 spatial_occ <- SpatialPoints(coords = my_occurrences[,c("decimalLongitude","decimalLatitude")])
 projection(spatial_occ)<-CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
