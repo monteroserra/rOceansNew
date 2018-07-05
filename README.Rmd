@@ -1,7 +1,7 @@
 ---
 tittle: rOceansNew - Examples
 author: I. Montero-Serra
-date: 22/Jun/2018
+date: 05/Jul/2018
 output: html_document
 ---
 
@@ -19,7 +19,7 @@ analyzing large data sets downloaded from OBIS or GBIF.
 devtools::install_github("monteroserra/rOceansNew")
 library(rOceansNew)
 
-````
+```
 
 # Functions 1: 
 ## Accessing and exploring data for single/few marine species
@@ -114,10 +114,22 @@ Allows computing several diversity metrics (shannon, richness, simpson) for glob
 
 # Computing global rasters of diversity metrics: example shannon diversity of Acropora species
 
-Acropora_Shannon_div = oceanDiversity(occurrences = Acropora_Total_Checked,
-                                   diversity_metric = "shannon")
+Acropora_div = oceanDiversity(occurrences = Acropora_Total_Checked)
 
-oceanMaps(Acropora_Shannon_div, logScale=T,main="Acropora Shannon")
+Acropora_species_matrix = Acropora_div[[1]]
+
+Acropora_richness = Acropora_div[[2]]
+Acropora_simpson = Acropora_div[[3]]
+Acropora_shannon = Acropora_div[[4]]
+
+
+oceanMaps(Acropora_richness, logScale=T,main="Acropora Species Richness")
+oceanMaps(Acropora_shannon, logScale=T,main="Acropora Shannon Diversity")
+oceanMaps(Acropora_simpson, logScale=T,main="Acropora Simpson Diversity")
+
+
+
+
 ```
 
 
@@ -173,7 +185,7 @@ Allows accessing, analyzing and mapping future trends in temeperature and other 
 
 SST_2100_RCP8.5 = oceanFuture()
 SST_2100_RCP4.5 = oceanFuture(IPCC_scenario = "RCP45")
-SST_2100_RCP2.5 = oceanFuture(IPCC_scenario = "RCP25")
+SST_2100_RCP2.5 = oceanFuture(IPCC_scenario = "RCP26")
 
 
 

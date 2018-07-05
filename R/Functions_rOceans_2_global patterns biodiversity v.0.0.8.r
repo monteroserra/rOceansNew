@@ -235,17 +235,16 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
                               long_name = "decimalLongitude",
                               extent = "global",cell_size = 5, 
                               min_long = -180, max_long = 180,
-                              min_lat = -90,   max_lat = 90, 
-                              diversity_metric="richness") {
+                              min_lat = -90,   max_lat = 90) {
 
-
-#for richness matrices, we can make a loop to split the database for each species and make the same computation
+occurrences = Acropora_Total_Checked
   
+  
+#for richness matrices, we can make a loop to split the database for each species and make the same computation
  
 data = occurrences[, c(species_name,lat_name,long_name)]
 
 species = unique((data[,species_name]))
-
 
 data$LATgrid<-cut(data$decimalLatitude,breaks=(max_long-min_long)/cell_size,include.lowest=T);
 
@@ -303,12 +302,9 @@ if (extent == "Mediterranean") {
 }
 
 
-
-
-
 # Here we get a presence/absence mx from species abundance mx and compute species richness per cell
 
-if(diversity_metric == "richness"){
+#richness
 
 sps_presence_matrix = sps_abund_matrix[,-c(1:5)]
 sps_presence_matrix[sps_presence_matrix>0] <- 1
@@ -317,49 +313,42 @@ richness = rowSums(sps_presence_matrix) #Sum al species-presence columns
 richness_df = data.frame(richness, sps_abund_matrix$decimalLongitude,
                           sps_abund_matrix$decimalLatitude)
 
-diversity_grid_raster = rasterize(richness_df[,c(2,3)], grid,
+richness_grid = rasterize(richness_df[,c(2,3)], grid,
                                 field=richness_df$richness, fun='last', background=NA)
-}
 
 
-# shannon diversity
+#shannon
 
-if(diversity_metric=="shannon"){
-
-div_index= "shannon"
-
-shannon_values = diversity(sps_abund_matrix[,-c(1:5)], index = div_index, MARGIN = 1, base = exp(1))
+shannon_values = diversity(sps_abund_matrix[,-c(1:5)], index = "shannon", MARGIN = 1, base = exp(1))
 
 shannon_df = data.frame(shannon_values, sps_abund_matrix$decimalLongitude,
                           sps_abund_matrix$decimalLatitude)
 
-diversity_grid_raster = rasterize(shannon_df[,c(2,3)], grid,
+shannon_grid = rasterize(shannon_df[,c(2,3)], grid,
                                   field=shannon_df$shannon_values, fun='last', background=NA)
 
-
-}
-
-#simpson diversity
-
-if(diversity_metric=="simpson"){
+# simpson index
   
-  div_index= "simpson"
+simpson_values = diversity(sps_abund_matrix[,-c(1:5)], index = "simpson", MARGIN = 1, base = exp(1))
   
-  simpson_values = diversity(sps_abund_matrix[,-c(1:5)], index = div_index, MARGIN = 1, base = exp(1))
-  
-  simpson_df = data.frame(simpson_values, sps_abund_matrix$decimalLongitude,
+simpson_df = data.frame(simpson_values, sps_abund_matrix$decimalLongitude,
                             sps_abund_matrix$decimalLatitude)
   
-  diversity_grid_raster = rasterize(simpson_df[,c(2,3)], grid,
+simpson_grid = rasterize(simpson_df[,c(2,3)], grid,
                                     field=simpson_df$simpson_values, fun='last', background=NA)
-  
-  
+
+
+results = list(sps_abund_matrix, richness_grid, shannon_grid, simpson_grid)
+
+return(results)
+
 }
 
 
-return(diversity_grid_raster)
 
-}
+
+
+
 
 
 #' Function #1.4 oceanMaps function in progress to plot different outputs of the rOcean package
