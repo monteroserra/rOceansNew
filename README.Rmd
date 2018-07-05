@@ -111,6 +111,13 @@ oceanMaps(Acropora_richness, logScale=T,main="Acropora Species Richness")
 oceanMaps(Acropora_shannon, logScale=T,main="Acropora Shannon Diversity")
 oceanMaps(Acropora_simpson, logScale=T,main="Acropora Simpson Diversity")
 
+```
+
+## Function 2.4 *oceanHotspots* 
+This function allows classifiying sites into high, mid, and low diversity given any biodiversity metric
+```{r}
+
+AcroporaHotspots = oceanHotspots(biodiversity_grid = Acropora_richness)
 
 ```
 

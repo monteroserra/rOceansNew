@@ -195,163 +195,10 @@ return(abundance_grid)
 
 }
 
-#' Function 2.3 oceanDiversity compute spatial patterns of species diversity from occurrences
-#' compute spatial patterns of species diversity from large occurrences datasets 
-#'
-#'
-#' @description computes global grid of abundance of occurrences at multiple scales
-#'
-#' @param occurrences dataset  of occurrences downloaded from OBIS or GBIF
-#'
-#' @param lat_name variable name indicating latitude in the occurrences dataset
-#' 
-#' @param long_name variable name indicating longitude in the occurrences dataset
-#' 
-#' @param min_long minimum longitude of the analysis
-#' 
-#' @param max_long maximum longitude of the analysis
-#' 
-#' @param max_long minimum latitute of the analysis
-#' 
-#' @param max_lat maximum latitude of the analysis
-#' 
-#' @param cell_size size of the grid cells in degrees (?)
-#' 
-#' @param diversity_metric diversity metric to be computes: richness, shannon or simpson indeces
-#' 
-#' @param extent spatial extent of the analysis:"global", "Mediterranean"
-#' 
-#' @return The function returns a an object of class raster with abundance per cell
-#'
-#'
-#' @details The function creates downloads occurrences data from the specific sources
-#' and stores them in a data frame.
-#' 
-#' @export
-
-
-oceanDiversity = function (occurrences, species_name = "scientificName", 
-                              lat_name = "decimalLatitude", 
-                              long_name = "decimalLongitude",
-                              extent = "global",cell_size = 5, 
-                              min_long = -180, max_long = 180,
-                              min_lat = -90,   max_lat = 90) {
-
-occurrences = Acropora_Total_Checked
-  
-  
-#for richness matrices, we can make a loop to split the database for each species and make the same computation
- 
-data = occurrences[, c(species_name,lat_name,long_name)]
-
-species = unique((data[,species_name]))
-
-data$LATgrid<-cut(data$decimalLatitude,breaks=(max_long-min_long)/cell_size,include.lowest=T);
-
-data$LONgrid<-cut(data$decimalLongitude,breaks=(max_lat-min_lat)/cell_size,include.lowest=T);
-
-## Create a single factor that gives the lat,long of each observation.
-data$IDgrid<-with(data,interaction(LATgrid,LONgrid))
-
-## Now, create another factor based on the above one, with shorter IDs and no empty levels
-data$IDNgrid<-factor(data$IDgrid);
-levels(data$IDNgrid)<-seq_along(levels(data$IDNgrid));
-
-## If you want total grid-cell count repeated for each observation falling into that grid cell, do this:
-data$count<- ave(data$decimalLatitude,data$IDNgrid,FUN=length)
-
-abundancesGrid <- data[!duplicated(data$IDgrid),]
-
-all_cells = abundancesGrid[,c(long_name, lat_name,"IDgrid","IDNgrid",species_name)]
-all_cells = arrange(all_cells, IDNgrid)
-sps_abund_matrix = all_cells
-
-for(i in 1:length(species)){
-  species_id = species[i]
-  data2 = data[data$scientificName==species_id,]
-  data2$count<- ave(data2$decimalLatitude,data2$IDNgrid,FUN=length)
-  data3 <- na.omit(data2)
-  data4 <- data3[!duplicated(data3$IDgrid),]
-  
-  dataMerge = merge(sps_abund_matrix, data4[,c("IDNgrid","count")], by="IDNgrid", all.x=T)
-  dataMerge[is.na(dataMerge)] <- 0
-  sps_abund_matrix$species_abundance = dataMerge$count
-  colnames(sps_abund_matrix)[5+i] <- paste(species_id)
-  cat(paste(i,"of",length(species),"species", round((i/length(species))*100),"%"), sep="\n")
-}
-
-#Make a raster
-
-if (extent == "global") {
-  grid <- raster(xmn = -180, xmx = 180, ymn = -90, ymx = 90,
-                 nrows=180/cell_size, ncols=360/cell_size)
-  
-}
-
-if (extent == "manual") {
-  
-  grid <- raster(xmn = min_long, xmx = max_long , ymn = min_lat, ymx = max_lat,
-                 nrows=(max_lat-min_lat)/cell_size, ncols=(max_long-min_long)/cell_size)
-  
-}
-
-if (extent == "Mediterranean") {
-  
-  grid <- raster(xmn = -7, xmx = 37, ymn = 30, ymx = 50,
-                 nrows=(20)/cell_size, ncols=(45)/cell_size)
-}
-
-
-# Here we get a presence/absence mx from species abundance mx and compute species richness per cell
-
-#richness
-
-sps_presence_matrix = sps_abund_matrix[,-c(1:5)]
-sps_presence_matrix[sps_presence_matrix>0] <- 1
-richness = rowSums(sps_presence_matrix) #Sum al species-presence columns 
-
-richness_df = data.frame(richness, sps_abund_matrix$decimalLongitude,
-                          sps_abund_matrix$decimalLatitude)
-
-richness_grid = rasterize(richness_df[,c(2,3)], grid,
-                                field=richness_df$richness, fun='last', background=NA)
-
-
-#shannon
-
-shannon_values = diversity(sps_abund_matrix[,-c(1:5)], index = "shannon", MARGIN = 1, base = exp(1))
-
-shannon_df = data.frame(shannon_values, sps_abund_matrix$decimalLongitude,
-                          sps_abund_matrix$decimalLatitude)
-
-shannon_grid = rasterize(shannon_df[,c(2,3)], grid,
-                                  field=shannon_df$shannon_values, fun='last', background=NA)
-
-# simpson index
-  
-simpson_values = diversity(sps_abund_matrix[,-c(1:5)], index = "simpson", MARGIN = 1, base = exp(1))
-  
-simpson_df = data.frame(simpson_values, sps_abund_matrix$decimalLongitude,
-                            sps_abund_matrix$decimalLatitude)
-  
-simpson_grid = rasterize(simpson_df[,c(2,3)], grid,
-                                    field=simpson_df$simpson_values, fun='last', background=NA)
-
-
-results = list(sps_abund_matrix, richness_grid, shannon_grid, simpson_grid)
-
-return(results)
-
-}
 
 
 
-
-
-
-
-
-#' Function #1.4 oceanMaps function in progress to plot different outputs of the rOcean package
+#' Function #2.2 oceanMaps function in progress to plot different outputs of the rOcean package
 #' visualize spatial patterns in marine biodiversity
 #'
 #' @author I. Montero-Serra,  E. Aspillaga, V. Barve, N Barve & K. Kaplan,
@@ -467,6 +314,195 @@ if(grid_provided){
     
     
   }
+  
+}
+
+
+#' Function 2.3 oceanDiversity compute spatial patterns of species diversity from occurrences
+#' compute spatial patterns of species diversity from large occurrences datasets 
+#'
+#'
+#' @description computes global grid of abundance of occurrences at multiple scales
+#'
+#' @param occurrences dataset  of occurrences downloaded from OBIS or GBIF
+#'
+#' @param lat_name variable name indicating latitude in the occurrences dataset
+#' 
+#' @param long_name variable name indicating longitude in the occurrences dataset
+#' 
+#' @param min_long minimum longitude of the analysis
+#' 
+#' @param max_long maximum longitude of the analysis
+#' 
+#' @param max_long minimum latitute of the analysis
+#' 
+#' @param max_lat maximum latitude of the analysis
+#' 
+#' @param cell_size size of the grid cells in degrees (?)
+#' 
+#' @param diversity_metric diversity metric to be computes: richness, shannon or simpson indeces
+#' 
+#' @param extent spatial extent of the analysis:"global", "Mediterranean"
+#' 
+#' @return The function returns a an object of class raster with abundance per cell
+#'
+#'
+#' @details The function creates downloads occurrences data from the specific sources
+#' and stores them in a data frame.
+#' 
+#' @export
+
+
+oceanDiversity = function (occurrences, species_name = "scientificName", 
+                           lat_name = "decimalLatitude", 
+                           long_name = "decimalLongitude",
+                           extent = "global",cell_size = 5, 
+                           min_long = -180, max_long = 180,
+                           min_lat = -90,   max_lat = 90) {
+  
+  
+  #for richness matrices, we can make a loop to split the database for each species and make the same computation
+  
+  data = occurrences[, c(species_name,lat_name,long_name)]
+  
+  species = unique((data[,species_name]))
+  
+  data$LATgrid<-cut(data$decimalLatitude,breaks=(max_long-min_long)/cell_size,include.lowest=T);
+  
+  data$LONgrid<-cut(data$decimalLongitude,breaks=(max_lat-min_lat)/cell_size,include.lowest=T);
+  
+  ## Create a single factor that gives the lat,long of each observation.
+  data$IDgrid<-with(data,interaction(LATgrid,LONgrid))
+  
+  ## Now, create another factor based on the above one, with shorter IDs and no empty levels
+  data$IDNgrid<-factor(data$IDgrid);
+  levels(data$IDNgrid)<-seq_along(levels(data$IDNgrid));
+  
+  ## If you want total grid-cell count repeated for each observation falling into that grid cell, do this:
+  data$count<- ave(data$decimalLatitude,data$IDNgrid,FUN=length)
+  
+  abundancesGrid <- data[!duplicated(data$IDgrid),]
+  
+  all_cells = abundancesGrid[,c(long_name, lat_name,"IDgrid","IDNgrid",species_name)]
+  all_cells = arrange(all_cells, IDNgrid)
+  sps_abund_matrix = all_cells
+  
+  for(i in 1:length(species)){
+    species_id = species[i]
+    data2 = data[data$scientificName==species_id,]
+    data2$count<- ave(data2$decimalLatitude,data2$IDNgrid,FUN=length)
+    data3 <- na.omit(data2)
+    data4 <- data3[!duplicated(data3$IDgrid),]
+    
+    dataMerge = merge(sps_abund_matrix, data4[,c("IDNgrid","count")], by="IDNgrid", all.x=T)
+    dataMerge[is.na(dataMerge)] <- 0
+    sps_abund_matrix$species_abundance = dataMerge$count
+    colnames(sps_abund_matrix)[5+i] <- paste(species_id)
+    cat(paste(i,"of",length(species),"species", round((i/length(species))*100),"%"), sep="\n")
+  }
+  
+  #Make a raster
+  
+  if (extent == "global") {
+    grid <- raster(xmn = -180, xmx = 180, ymn = -90, ymx = 90,
+                   nrows=180/cell_size, ncols=360/cell_size)
+    
+  }
+  
+  if (extent == "manual") {
+    
+    grid <- raster(xmn = min_long, xmx = max_long , ymn = min_lat, ymx = max_lat,
+                   nrows=(max_lat-min_lat)/cell_size, ncols=(max_long-min_long)/cell_size)
+    
+  }
+  
+  if (extent == "Mediterranean") {
+    
+    grid <- raster(xmn = -7, xmx = 37, ymn = 30, ymx = 50,
+                   nrows=(20)/cell_size, ncols=(45)/cell_size)
+  }
+  
+  
+  # Here we get a presence/absence mx from species abundance mx and compute species richness per cell
+  
+  #richness
+  
+  sps_presence_matrix = sps_abund_matrix[,-c(1:5)]
+  sps_presence_matrix[sps_presence_matrix>0] <- 1
+  richness = rowSums(sps_presence_matrix) #Sum al species-presence columns 
+  
+  richness_df = data.frame(richness, sps_abund_matrix$decimalLongitude,
+                           sps_abund_matrix$decimalLatitude)
+  
+  richness_grid = rasterize(richness_df[,c(2,3)], grid,
+                            field=richness_df$richness, fun='last', background=NA)
+  
+  
+  #shannon
+  
+  shannon_values = diversity(sps_abund_matrix[,-c(1:5)], index = "shannon", MARGIN = 1, base = exp(1))
+  
+  shannon_df = data.frame(shannon_values, sps_abund_matrix$decimalLongitude,
+                          sps_abund_matrix$decimalLatitude)
+  
+  shannon_grid = rasterize(shannon_df[,c(2,3)], grid,
+                           field=shannon_df$shannon_values, fun='last', background=NA)
+  
+  # simpson index
+  
+  simpson_values = diversity(sps_abund_matrix[,-c(1:5)], index = "simpson", MARGIN = 1, base = exp(1))
+  
+  simpson_df = data.frame(simpson_values, sps_abund_matrix$decimalLongitude,
+                          sps_abund_matrix$decimalLatitude)
+  
+  simpson_grid = rasterize(simpson_df[,c(2,3)], grid,
+                           field=simpson_df$simpson_values, fun='last', background=NA)
+  
+  
+  results = list(sps_abund_matrix, richness_grid, shannon_grid, simpson_grid)
+  
+  return(results)
+  
+}
+
+
+#' ROxygen2 block for function #2.4
+#' 
+#' Function 2.4 oceanHotspots: explore hotspots and lowspots of biodiversity
+#'
+#' @description downloads and explore environmental tredns according to IPCC climate change projections
+#' @param biodiversity_grid raster layer with any biodiversity metric previously computed with oceanDiversity
+#' @param hotspot_map whether we want the resulting hotspots and lowspots to be mapped. 
+#' @return Object of class raster with three levels of biodiversity (1 = lowspot; 2 = mid diversity; 3 = highdiversity)
+#' @details This function allows classifiying sites into high, mid, and low diversity given any biodiversity metric
+#' @export
+
+
+oceanHotspots = function (biodiversity_grid, 
+                          hotspot_map=T) {
+  
+  ## Identifying biodiversity hotspot
+  
+  ## Framework for classififying into low - mid - high diversity sites
+  min_diversity = minValue(biodiversity_grid)
+  low_treshold = summary(biodiversity_grid)[2] # third quartile (all bellow is considered lowspot)
+  high_treshold = summary(biodiversity_grid)[4] # third quartile (all above is considered hotspot)
+  max_diversity = maxValue(biodiversity_grid)
+  
+  m = c(min_diversity,low_treshold,1, low_treshold, high_treshold, 2,
+        high_treshold, max_diversity, 3)
+  
+  rclmat = matrix(m, ncol=3, byrow=TRUE)
+  
+  biodiversity_classified = reclassify(biodiversity_grid, rclmat)
+  
+  if(hotspot_map){
+    
+    oceanMaps(biodiversity_classified, main = "Hotspots of biodiversity")
+    
+  }
+  
+  return(biodiversity_classified)
   
 }
 
