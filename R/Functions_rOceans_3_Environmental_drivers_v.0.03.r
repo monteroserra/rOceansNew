@@ -139,7 +139,7 @@ oceanFuture = function (env_parameter = "BO2_tempmean_ss",
   # future conditions (only working with a single metric so far)
   
   
-  future_layer_code <- get_future_layers(current_layer_codes =env_parameter,
+  future_layer_code <- sdmpredictors::get_future_layers(current_layer_codes =env_parameter,
                                          scenario = IPCC_scenario, 
                                          year = year_proj)$layer_code
   
@@ -185,8 +185,8 @@ defined_grid = crop(change_grid, study_area)
   
   if (map) {
     
-    plot(defined_grid, col=cols, 
-         main=paste("Expected changes",year_proj, "IPCC Scenario = ",IPCC_scenario))
+    plot(defined_grid, col=cols, cex.main=0.6, 
+         main=paste("Projected changes in",env_parameter,"in", year_proj, "( IPCC",IPCC_scenario,")"))
   }
   
   return(defined_grid)

@@ -22,23 +22,14 @@ library(rOceansNew)
 ```
 
 # Functions 1: 
-## Accessing and exploring data for single/few marine species
+## Accessing, merging and cleaning geographich occurrences data 
 
 ### Function 1.1 *oceanDivDat* 
 Allows accessing occurrence data from GBIF and OBIS for a given vector of species names. It also allows merging data from these two sources and removing duplicates as well as land-based occurrences. 
 
-### Function 1.2 *presenceRaster* 
-Creates a presence / absence raster from occurrence data. We can use *cell_size* to specify the sieze of cells within the grid (by default 
-cell_size = 5º).
-
-### Function 1.3 *oceanRichness* 
-Creates a species richness raster from occurrence data of multiple species. We can use *cell_size* to specify the sieze of cells within the grid (by default cell_size = 5º). 
-
-### Function 1.4 *oceanMaps*  
-A versatile data mapping tool for a rapid visualization of marine biodiversity patterns previously computed.  
-
 
 ```{r}
+
 # Define target species names: example with three corals
 coral_species = c("Corallium rubrum", "Acropora palmata", "Paramuricea clavata")
 
@@ -49,39 +40,22 @@ corals = oceanDivDat(species_names = coral_species,
                      remove_duplicates = T, 
                      remove_land_dots = T)
 
-head(corals)
-
-corals_presence = presencesRaster(occurrences=corals, 
-                                         cell_size=5)
-oceanMaps(corals_presence)
-
-corals_richness = oceanRichness(occurrences=corals, 
-                                cell_size=5)
-
-
-oceanMaps(corals_richness)
-
 ```
 
-# Functions 2: 
-## Merging, checking & filtering large biogeographic datasets and analyzing spatial trends in marine biodiversity
+## Function 1.2 *oceanDataCheck* 
+Allows merging, checking, filtering the raw data from OBIS and/or GBIF into a common standard database. 
 
 For this set of functions, first we need to access and download data from GBIF (www.gbif.org) and OBIS (www.iobis.org). Here I show an example with data of species within the genus *Acropora* downloaded from the website on June 2018. The data can be accessed from my GitHub repository "monteroserra/rOceanData" or using data()
 
-```{r}
 
+
+```{r}
 # Example of direct downloaded raw occurrences of Acropora species from GBIF and OBIS
 
 data(Acropora_GBIF) 
 data(Acropora_OBIS)
 
-```
 
-
-## Function 2.1 *oceanDataCheck* 
-Allows merging, checking, filtering the raw data from OBIS and/or GBIF into a common standard database. 
-
-```{r}
 
 Acropora_OBIS_checked = oceanDataCheck(OBIS_occurrences = Acropora_OBIS, source = "OBIS")
 Acropora_GBIF_checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF, source = "GBIF")
@@ -90,11 +64,19 @@ Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
                                         OBIS_occurrences = Acropora_OBIS,
                                         source = "GBIF_&_OBIS")
 
+
 ```
 
-## Function 2.2 *oceanAbundGrid* 
+# Functions 2: analyzing spatial trends in marine biodiversity
+
+## Function 2.1 *oceanAbundGrid* 
 Allows creating global or delimited spatial grids with abundance
 of occurrences per cell at differenc cell sizes. 
+
+
+## Function 2.2 *oceanMaps*  
+A versatile data mapping tool for a rapid visualization of marine biodiversity patterns previously computed.  
+
 
 ```{r}
 # Computing global rasters of abundance
@@ -106,9 +88,8 @@ oceanMaps(Acropora_abundance, logScale=T, main="Acropora abundance")
 
 ```
 
-
 ## Function 2.3 *oceanDeiversity* 
-Allows computing several diversity metrics (shannon, richness, simpson) for global or delimited areas. 
+Allows computing several diversity metrics (shannon, richness, simpson) at global scale or for specifically delimited areas. 
 
 ```{r}
 
@@ -126,8 +107,6 @@ Acropora_shannon = Acropora_div[[4]]
 oceanMaps(Acropora_richness, logScale=T,main="Acropora Species Richness")
 oceanMaps(Acropora_shannon, logScale=T,main="Acropora Shannon Diversity")
 oceanMaps(Acropora_simpson, logScale=T,main="Acropora Simpson Diversity")
-
-
 
 
 ```
