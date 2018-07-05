@@ -185,7 +185,8 @@ defined_grid = crop(change_grid, study_area)
   
   if (map) {
     
-    plot(defined_grid, col=cols)
+    plot(defined_grid, col=cols, 
+         main=pasted("Expected changes",year_proj, "IPCC Scenario = ",IPCC_scenario))
   }
   
   return(defined_grid)
