@@ -179,7 +179,7 @@ defined_grid = crop(change_grid, study_area)
   
   if (reshappe) {
     
-    factor = cell_size / res(defined_grid)[1]
+    factor = new_cell_size / res(defined_grid)[1]
     defined_grid <- disaggregate(defined_grid, fact=factor)
   }
   
