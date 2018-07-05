@@ -126,7 +126,7 @@ return(my_occurrences)
 
 }
 
-#' Function 1.1 oceanDist: Creates a presence / absence raster from occurrence data
+#' Function 1.2 presencesRaster: Creates a presence / absence raster from occurrence data
 #'
 #' @author I. Montero-Serra,  E. Aspillaga, V. Barve, N Barve & K. Kaplan,
 #'
