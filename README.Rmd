@@ -116,25 +116,15 @@ oceanMaps(Acropora_simpson, logScale=T,main="Acropora Simpson Diversity")
 
 
 # Functions 3: 
-## Accessing and exploring current and future environmental data (in progress). 
-
+## Accessing and exploring current and future trends in marine environmental data  
 
 ## Function 3.1 *oceanEnv* 
 Allows accessing environmental layers at present conditions to explore and test potential
 drivers of marine biodiversity patterns
 
 ```{r}
-
 # Using the previous example on abundance and diversity of Acropora species
 
-# Computing abundance grids
-data(Acropora_GBIF)
-data(Acropora_OBIS)
-
-#Check, merge and filter
-Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
-                                        OBIS_occurrences = Acropora_OBIS,
-                                        source = "GBIF_&_OBIS")
 #Compute abundance grid
 Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=5)
 
@@ -147,13 +137,20 @@ abundance_environ_df = oceanEnv(biod_grid = Acropora_abundance,
                        plot=T, 
                        log_scale=T)
   
+
+
+# we can also analyze environmental drivers of species richness using previously computed grids 
+abundance_environ_df = oceanEnv(biod_grid = Acropora_richness,
+                       biodiv_metric = "richness", 
+                       plot=T, 
+                       log_scale=T)
+
+# you can specify any alternative environmental parameters using env_parameters
+
 # to see the full list of avilable parameters (326)
 
 env_variables = sdmpredictors::list_layers()
 marine_layers = env_variables[env_variables$marine==T, ]
-
-# you can specify alternative environmental parameters using env_parameters
-
 
 ```
 
@@ -165,7 +162,7 @@ Allows accessing, analyzing and mapping future trends in temeperature and other 
 # Accessing and mapping expected increases in Sea Surface Temperature data for 2100 according
 # to different IPCC scenarios
 
-SST_2100_RCP8.5 = oceanFuture()
+SST_2100_RCP8.5 = oceanFuture(IPCC_scenario = "RCP85")
 SST_2100_RCP4.5 = oceanFuture(IPCC_scenario = "RCP45")
 SST_2100_RCP2.5 = oceanFuture(IPCC_scenario = "RCP26")
 
@@ -175,17 +172,18 @@ SST_2100_RCP2.5 = oceanFuture(IPCC_scenario = "RCP26")
 
 env_variables_future = sdmpredictors::list_layers_future()
 
-#Ex Maximum Surface Salinity
-Surface_Salinity_max_2100_RCP8.5 = oceanFuture(env_parameter = "BO2_salinitymax_ss")
+#Other examples
+
+#Maximum Surface Salinity
+Surface_Salinity_max_2100_RCP8.5 = oceanFuture(env_parameter = "BO2_salinitymax_ss",
+                                               IPCC_scenario = "RCP45")
 
 #IPCC RCP4.5
 Surface_Salinity_max_2100_RCP2.5 = oceanFuture(env_parameter = "BO2_salinitymax_ss", 
-                                               IPCC_scenario = "RCP45")
-
-
-
+                                               IPCC_scenario = "RCP85")
 #Ice thick
-Ice_thick_trends_2100_RCP8.5 = oceanFuture(env_parameter = "BO2_icethickmax_ss")
+Ice_thick_trends_2100_RCP8.5 = oceanFuture(env_parameter = "BO2_icethickmax_ss",
+                                           IPCC_scenario = "RCP45")
 
 
 ```
