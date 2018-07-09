@@ -478,7 +478,8 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
 #' @export
 
 oceanHotspots = function (biodiversity_grid, 
-                          hotspot_map=T) {
+                          hotspot_map=T, 
+                          only_hotspots=F) {
   
   ## Identifying biodiversity hotspot
   
@@ -494,6 +495,13 @@ oceanHotspots = function (biodiversity_grid,
   rclmat = matrix(m, ncol=3, byrow=TRUE)
   
   biodiversity_classified = reclassify(biodiversity_grid, rclmat)
+  
+  if(only_hotspots){
+    
+    biodiversity_classified[biodiversity_classified<3] <- NA
+    
+  }
+  
   
   if(hotspot_map){
     
