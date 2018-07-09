@@ -477,7 +477,6 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
 #' @details This function allows classifiying sites into high, mid, and low diversity given any biodiversity metric
 #' @export
 
-
 oceanHotspots = function (biodiversity_grid, 
                           hotspot_map=T) {
   
