@@ -92,6 +92,7 @@ for(i in 1:length(env_parameters)){
 
 }
 par(mfrow=c(1,1))
+
 }
   return(df)
 

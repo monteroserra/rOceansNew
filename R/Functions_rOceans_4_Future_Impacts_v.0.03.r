@@ -98,9 +98,9 @@ oceanFuture = function (env_parameter = "BO2_tempmean_ss",
 
 
 
-#' ROxygen2 block for function #3.3
+#' ROxygen2 block for function #4.2
 #' 
-#' Function 3.3 oceanVulnerability: explore hotspots and lowspots of biodiversity
+#' Function 4.2 oceanVulnerability: link hotspots of biodiversity to projected climatic impacts
 #'
 #' @description downloads and explore environmental tredns according to IPCC climate change projections
 #' @param biodiversity_grid raster layer with any biodiversity metric previously computed with oceanDiversity
