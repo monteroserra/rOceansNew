@@ -39,9 +39,6 @@ corals = oceanDivDat(species_names = coral_species,
                      remove_duplicates = T, 
                      remove_land_dots = T)
 
-
-
-
 ```
 
 ## Function 1.2 *oceanDataCheck* 
@@ -78,7 +75,8 @@ of occurrences per cell at differenc cell sizes.
 
 Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=5)
 
-oceanMaps(Acropora_abundance, logScale=T, main="Acropora abundance")
+Acropora_abundance_1x1 = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=1)
+
 
 ```
 
@@ -90,6 +88,9 @@ A versatile data mapping tool for a rapid visualization of marine biodiversity p
 
 oceanMaps(Acropora_abundance, logScale=T, main="Acropora abundance")
 
+oceanMaps(Acropora_abundance_1x1, logScale=T, main="Acropora abundance (1x1)")
+
+
 ```
 
 
@@ -100,7 +101,7 @@ Allows computing several diversity metrics (shannon, richness, simpson) at globa
 
 # Computing global rasters of diversity metrics: example shannon diversity of Acropora species
 
-Acropora_div = oceanDiversity(occurrences = Acropora_Total_Checked)
+invisible(Acropora_div = oceanDiversity(occurrences = Acropora_Total_Checked))
 
 Acropora_species_matrix = Acropora_div[[1]]
 
@@ -219,7 +220,7 @@ abundance_environ_df = oceanEnv(biod_grid = Carcharhinidae_abundance,
                                 log_scale=T)
 
 # Computing species abundance matrix - and several diversity metrics
-Carcharhinidae_diversity = oceanDiversity(occurrences = Carcharhinidae_total_checked)
+invisible(Carcharhinidae_diversity = oceanDiversity(occurrences = Carcharhinidae_total_checked))
 
 # Visualizing richness
 oceanMaps(Carcharhinidae_diversity[[2]])
