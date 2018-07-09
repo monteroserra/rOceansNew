@@ -47,14 +47,24 @@ oceanDataCheck = function (source="OBIS",
   
   if(source=="GBIF_&_OBIS"){
     
-    GBIF_occurrences = GBIF_occurrences[,c("scientificname", "species",
-                                           "decimallongitude", "decimallatitude",
-                                           "catalognumber",  "institutioncode")]
+    GBIF_occurrences_filtered = GBIF_occurrences[GBIF_occurrences$taxonrank == "SPECIES",]
+    
+    cat(paste(nrow(GBIF_occurrences)-nrow(GBIF_occurrences_filtered),"occurrences were deleted due to non-standard taxonomic information"),sep="\n")
+    
+    
+    GBIF_occurrences = GBIF_occurrences_filtered[,c("scientificname", "species",
+                                                 "decimallongitude", "decimallatitude",
+                                                 "catalognumber",  "institutioncode")]
     
     colnames(GBIF_occurrences) <- c("scientificName", "species","decimalLongitude", 
                                     "decimalLatitude","catalogNumber",  "institutionCode")
     
-    OBIS_occurrences = OBIS_occurrences[,c("scientificName", "species","decimalLongitude", "decimalLatitude",
+    OBIS_occurrences_filtered = OBIS_occurrences[!is.na(OBIS_occurrences$worms_id),]
+    
+    cat(paste(nrow(OBIS_occurrences)-nrow(OBIS_occurrences_filtered),"occurrences were deleted due to non-standard taxonomic information"),sep="\n")
+    
+    
+    OBIS_occurrences = OBIS_occurrencesB[,c("scientificName", "species","decimalLongitude", "decimalLatitude",
                                            "catalogNumber",  "institutionCode")]
     
     
@@ -253,7 +263,10 @@ oceanMaps = function (grid,
                       mid_color="gold",
                       high_color= "firebrick", 
                       col_steps=20, 
-                      main=""){
+                      main="", 
+                      hotspots_map=F){
+
+dev.off()
   
 ## color gradient function
 color.gradient <- function(x, colors=c(low_color,mid_color,high_color), colsteps=col_steps) {
@@ -314,8 +327,20 @@ if(grid_provided){
     
     
   }
+
+
+if(hotspots_map){
+  
+  maps::map("world", fill = T,col="grey20")
+  maps::map.axes()
+  plot(grid, col=c("steelblue", "gold","firebrick"), add=T, legend=F)
+  maps::map("world", fill = T,add=T,col="grey20")
+
+  }
   
 }
+
+
 
 
 #' Function 2.3 oceanDiversity compute spatial patterns of species diversity from occurrences
@@ -470,7 +495,7 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
 #' 
 #' Function 2.4 oceanHotspots: explore hotspots and lowspots of biodiversity
 #'
-#' @description downloads and explore environmental tredns according to IPCC climate change projections
+#' @description classify cells within a spatial grid according to biodiversity levels 
 #' @param biodiversity_grid raster layer with any biodiversity metric previously computed with oceanDiversity
 #' @param hotspot_map whether we want the resulting hotspots and lowspots to be mapped. 
 #' @return Object of class raster with three levels of biodiversity (1 = lowspot; 2 = mid diversity; 3 = highdiversity)
@@ -496,23 +521,35 @@ oceanHotspots = function (biodiversity_grid,
   
   biodiversity_classified = reclassify(biodiversity_grid, rclmat)
   
-  if(only_hotspots){
+dev.off()
+
+if(only_hotspots){
     
     biodiversity_classified[biodiversity_classified<3] <- NA
     
+  if(hotspot_map){
+      
+      maps::map("world", fill = T,col="grey20")
+      maps::map.axes()
+      plot(biodiversity_classified, col=c("firebrick"), add=T, legend=F)
+      maps::map("world", fill = T,add=T,col="grey20")
+    
+      }
+    
   }
-  
   
   if(hotspot_map){
     
-    oceanMaps(biodiversity_classified, main = "Hotspots of biodiversity")
+    maps::map("world", fill = T,col="grey20")
+    maps::map.axes()
+    plot(biodiversity_classified, col=c("steelblue", "gold","firebrick"), add=T, legend=F)
+    maps::map("world", fill = T,add=T,col="grey20")
     
   }
   
   return(biodiversity_classified)
   
 }
-
 
 
 

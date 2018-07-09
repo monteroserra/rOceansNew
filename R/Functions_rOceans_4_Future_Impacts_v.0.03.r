@@ -115,11 +115,16 @@ oceanFuture = function (env_parameter = "BO2_tempmean_ss",
 
 
 oceanVulnerab = function (biodiversity_grid,
-                          climatic_layer,
+                          climatic_layer =NULL,
+                          get_climatic_layers = T,
                           reshape_climatic_layer = F,
                           new_cell_size = 1,
                           plot_histograms = T,
-                          map_climtatic_impacts) {
+                          map_climtatic_impacts = T,
+                          low_color="steelblue", 
+                          mid_color="gold",
+                          high_color= "firebrick", 
+                          col_steps=20) {
   
 if(reshape_climatic_layer){
     
@@ -136,6 +141,7 @@ colnames(hotspots) = c("hotspot", "x", "y")
 xy = SpatialPoints(hotspots[,c("x","y")])
 projection(xy) <- CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs")
 
+if(get_climatic_layers){
 
 climatic_layerRCP8.5 = oceanFuture(IPCC_scenario = "RCP85")
 climatic_layerRCP4.5 = oceanFuture(IPCC_scenario = "RCP45")
@@ -161,6 +167,18 @@ h85 = hist(hotspots$future_SST_RCP8.5, breaks=15, main="RCP 8.5",col="firebrick"
      xlab="Expected Increases in Tª(ºC)", ylab="Hotspots of Biodiversity")
 box()
 par(mfrow=c(1,1))
+} else {
+  
+hotspots$future_layer = extract(climatic_layer, xy)
+
+hist(hotspots$future_layer, breaks=15, col="firebrick",
+           xlab="Expected Changes", ylab="Hotspots of Biodiversity")
+  
+}
+}
+
+
+
 }
 
 ## color gradient function
@@ -174,7 +192,7 @@ if(map_climtatic_impacts){
   
   plot(biodiversity_grid, col="white", legend=F, main="Climatic impacts RCP8.5")
   maps::map("world",add=T, fill = T,bg="grey20",col="grey30")
-  points(hotspots[,c("x","y")], pch=21,cex=hotspots$future_SST_RCP8.5, 
+  points(hotspots[,c("x","y")], pch=21,cex=1.5, 
          bg=factor(hotspots$future_SST_RCP8.5))
   
   

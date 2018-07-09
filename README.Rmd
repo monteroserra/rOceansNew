@@ -43,14 +43,14 @@ corals = oceanDivDat(species_names = coral_species,
 ```
 
 ## Function 1.2 *oceanDataCheck* 
-Allows merging, checking, filtering the raw data from OBIS and/or GBIF into a common standard database. 
+Allows merging, checking, filtering the raw data from OBIS and/or GBIF into a common standard database. It removes occurrences with inconsistent or inconmplete taxonomic information, land-based occurrences, and duplicate occurrences. 
 
-For this set of functions, first we need to access and download data from GBIF (www.gbif.org) and OBIS (www.iobis.org). Here I show an example with data of species within the genus *Acropora* downloaded from the website on June 2018. The data can be accessed from my GitHub repository "monteroserra/rOceanData" or using data()
+For this set of functions, we first  need to access and download data from GBIF (www.gbif.org) and OBIS (www.iobis.org). 
 
-
+Here I show an example with data of species within the genus *Acropora* that were directly downloaded from the website on June 2018. The data can be accessed from my GitHub repository "monteroserra/rOceanData" or using data()
 
 ```{r}
-# Example of direct downloaded raw occurrences of Acropora species from GBIF and OBIS
+#Accesing raw datasets
 
 data(Acropora_GBIF) 
 data(Acropora_OBIS)
@@ -118,6 +118,7 @@ This function allows classifiying sites into high, mid, and low diversity given 
 ```{r}
 
 AcroporaHotspots = oceanHotspots(biodiversity_grid = Acropora_richness)
+
 
 ```
 
