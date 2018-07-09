@@ -181,10 +181,13 @@ hist(hotspots$future_layer, breaks=15, col="firebrick",
 
 }
 
+dev.off()
+
 ## color gradient function
 color.gradient <- function(x, colors=c(low_color,mid_color,high_color), colsteps=col_steps) {
   return(colorRampPalette(colors) (colsteps) [ findInterval(x, seq(min(x),max(x), length.out=colsteps)) ] )
 }
+
 
 palette(color.gradient(1:20))
 
