@@ -203,33 +203,43 @@ Ice_thick_trends_2100_RCP8.5 = oceanFuture(env_parameter = "BO2_icethickmax_ss",
 
 ```{r}
 
-# Download dataset on Carharhinidae (it has been previously checked and filtered using oceanDataCheck()
+#Download dataset on Carharhinidae (it has been previously checked and filtered using oceanDataCheck()
+                                   
 data(Carcharhinidae_total_checked) 
 
 #Compte a abundance grid
 Carcharhinidae_abundance = oceanAbundGrid(occurrences = Carcharhinidae_total_checked, cell_size=5)
 
+Carcharhinidae_abundance_1x1 = oceanAbundGrid(occurrences = Carcharhinidae_total_checked, cell_size=1)
+
 #Visualize abundance
-oceanMaps(Carcharhinidae_abundance, logScale=T, main="Carcharhinidae abundance")
+oceanMaps(Carcharhinidae_abundance, logScale=T, main="Carcharhinidae abundance (5ºx5º)")
+
+oceanMaps(Carcharhinidae_abundance_1x1, logScale=T, main="Carcharhinidae abundance (1ºx1º)")
 
 
 # Exploring envioronmental drivers of abundance patterns
-abundance_environ_df = oceanEnv(biod_grid = Carcharhinidae_abundance,
+invisible(abundance_environ_df = oceanEnv(biod_grid = Carcharhinidae_abundance_1x1,
                                 biodiv_metric = "abundance", 
                                 plot=T, 
-                                log_scale=T)
+                                log_scale=T))
+
 
 # Computing species abundance matrix - and several diversity metrics
 invisible(Carcharhinidae_diversity = oceanDiversity(occurrences = Carcharhinidae_total_checked))
 
 # Visualizing richness
-oceanMaps(Carcharhinidae_diversity[[2]])
+oceanMaps(Carcharhinidae_diversity[[2]], main = "Carcharhinidae richness")
 
 # Exploring envioronmental drivers of abundance patterns
-abundance_environ_df = oceanEnv(biod_grid = Carcharhinidae_diversity[[2]],
+invisible(diversity_environ_df = oceanEnv(biod_grid = Carcharhinidae_diversity[[2]],
                                 biodiv_metric = "richness", 
                                 plot=T, 
-                                log_scale=T)
+                                log_scale=T))
 
+invisible(oceanHotspots(biodiversity_grid = diversity_environ_df[[2]]))
 
 ```
+
+
+
