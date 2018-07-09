@@ -187,12 +187,5 @@ return(hotspots)
 
 
 
-biodiversity_grid = Acropora_hotspots
-
-SST_2100_RCP8.5 = oceanFuture(IPCC_scenario = "RCP85")
-Acropora_hotspots = oceanHotspots(biodiversity_grid =Acropora_richness, only_hotspots = T)
-
-
-
 
 
