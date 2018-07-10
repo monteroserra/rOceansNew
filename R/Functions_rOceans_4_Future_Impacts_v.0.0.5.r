@@ -151,6 +151,7 @@ hotspots$future_SST_RCP8.5 = extract(climatic_layerRCP8.5, xy)
 hotspots$future_SST_RCP4.5 = extract(climatic_layerRCP4.5, xy)
 hotspots$future_SST_RCP2.5 = extract(climatic_layerRCP2.5, xy)
 
+
 if(plot_histograms){
 
 par(mfrow=c(1,3)) 
@@ -167,6 +168,8 @@ h85 = hist(hotspots$future_SST_RCP8.5, breaks=15, main="RCP 8.5",col="firebrick"
      xlab="Expected Increases in Tª(ºC)", ylab="Hotspots of Biodiversity")
 box()
 par(mfrow=c(1,1))
+}
+
 } else {
   
 hotspots$future_layer = extract(climatic_layer, xy)
@@ -175,23 +178,18 @@ hist(hotspots$future_layer, breaks=15, col="firebrick",
            xlab="Expected Changes", ylab="Hotspots of Biodiversity")
   
 }
-}
 
 
-
-}
-
-dev.off()
-
-## color gradient function
-color.gradient <- function(x, colors=c(low_color,mid_color,high_color), colsteps=col_steps) {
-  return(colorRampPalette(colors) (colsteps) [ findInterval(x, seq(min(x),max(x), length.out=colsteps)) ] )
-}
-
-
-palette(color.gradient(1:20))
 
 if(map_climtatic_impacts){
+  
+  dev.off()
+
+  color.gradient <- function(x, colors=c(low_color,mid_color,high_color), colsteps=col_steps) {
+    return(colorRampPalette(colors) (colsteps) [ findInterval(x, seq(min(x),max(x), length.out=colsteps)) ] )
+  }
+  
+  palette(color.gradient(1:20))
   
   plot(biodiversity_grid, col="white", legend=F, main="Climatic impacts RCP8.5")
   maps::map("world",add=T, fill = T,bg="grey20",col="grey30")
