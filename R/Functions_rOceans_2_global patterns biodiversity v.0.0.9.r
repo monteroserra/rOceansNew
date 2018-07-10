@@ -263,7 +263,7 @@ oceanMaps = function (grid = NULL,
                       mid_color="gold",
                       high_color= "firebrick", 
                       col_steps=20, 
-                      main="", 
+                      main="",cex_main=0.8, 
                       hotspots_map=F){
 
 ## color gradient function
@@ -279,12 +279,12 @@ if(grid_provided){
     
     if (logScale){
       
-      plot(log(grid), col=cols, main=main)
+      plot(log(grid), col=cols, main=main, cex.main = cex_main)
       
     } 
     
     else {
-      plot(grid, col=cols, main=main)
+      plot(grid, col=cols, main=main, cex.main = cex_main)
     }
     
     maps::map("world",add=T, fill = T,bg="grey20",col="grey30")
@@ -422,7 +422,7 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
     sps_abund_matrix$species_abundance = dataMerge$count
     colnames(sps_abund_matrix)[5+i] <- paste(species_id)
     cat(paste(i,"of",length(species),"species", round((i/length(species))*100),"%"), sep="\n")
-  }
+    }
   
   #Make a raster
   
@@ -500,9 +500,13 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
 #' @details This function allows classifiying sites into high, mid, and low diversity given any biodiversity metric
 #' @export
 
+biodiversity_grid = Carcharhinidae_diversity[[2]]
+
+
 oceanHotspots = function (biodiversity_grid, 
                           hotspot_map=T, 
-                          only_hotspots=F) {
+                          only_hotspots=F, 
+                          main="", cex.main=0.8) {
   
   ## Identifying biodiversity hotspot
   
@@ -519,32 +523,33 @@ oceanHotspots = function (biodiversity_grid,
   
   biodiversity_classified = reclassify(biodiversity_grid, rclmat)
   
-dev.off()
+
 
 if(only_hotspots){
     
     biodiversity_classified[biodiversity_classified<3] <- NA
     
   if(hotspot_map){
-      
-      maps::map("world", fill = T,col="grey20")
+      dev.off()
+      maps::map("world", fill = T,col="grey20",main=main, cex.main=cex.main)
       maps::map.axes()
       plot(biodiversity_classified, col=c("firebrick"), add=T, legend=F)
       maps::map("world", fill = T,add=T,col="grey20")
     
       }
     
-  }
+  } else {
   
   if(hotspot_map){
-    
-    maps::map("world", fill = T,col="grey20")
+    dev.off()
+    maps::map("world", fill = T,col="grey20", main=main,cex.main=cex.main)
     maps::map.axes()
     plot(biodiversity_classified, col=c("steelblue", "gold","firebrick"), add=T, legend=F)
     maps::map("world", fill = T,add=T,col="grey20")
     
   }
-  
+}
+  main="ee", cex.main=0.7
   return(biodiversity_classified)
   
 }

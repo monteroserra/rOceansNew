@@ -18,7 +18,9 @@ oceanEnv = function (biod_grid,
                      env_parameters=c("BO2_tempmean_ss","BO2_tempmax_ss","BO_sstrange",
                                       "BO_bathymean","BO_chlomean", "BO_salinity"), 
                      plot=F, 
-                     log_scale=F) {
+                     log_scale=F, 
+                     colors = c("#1874CD60","#4D4DFF60","#23238E60",
+                              "#68838B60","#00CD0060", "#CDB38B60")) {
 
 
 # getting envrionmental parameters at present conditions
@@ -71,6 +73,8 @@ colnames(df) = c(biodiv_metric, "x", "y", env_parameters)
 
 # ploting biodiversity metric ~ environmental parameters (only for single metric so far)
 
+
+
 if (plot) {
 
 par(mfrow=c(2,3))
@@ -80,7 +84,7 @@ if (log_scale) {
   for(i in 1:length(env_parameters)){
       plot(log(df[,1]) ~ df[,i+3], data=df, pch=21, 
            xlab = paste(env_parameters[i]), ylab= paste(biodiv_metric), 
-           bg="#104E8B70", col="#104E8B50")
+           bg=colors[i], col=colors[i])
   }
 } else {
   

@@ -1,7 +1,7 @@
 ---
 tittle: rOceansNew - Examples
 author: I. Montero-Serra
-date: 05/Jul/2018
+date: 10/Jul/2018
 output: html_document
 ---
 # rOceans 
@@ -20,10 +20,9 @@ invisible(library(rOceansNew))
 
 ```
 
-# Functions 1: 
-## Accessing, merging and cleaning geographich occurrences data 
+# Functions for accessing, merging and cleaning geographich occurrences data 
 
-### Function 1.1 *oceanDivDat* 
+## Function #1 *oceanDivDat* 
 Allows accessing occurrence data from GBIF and OBIS for a given vector of species names. It also allows merging data from these two sources and removing duplicates as well as land-based occurrences. 
 
 
@@ -42,6 +41,7 @@ corals = oceanDivDat(species_names = coral_species,
 
 
 Compute abundance per grid cell and visualize the results using *oceanAbunGrid()* & *oceanMaps()*
+
 ```{r}
 
 #Compute abundance per grid cell
@@ -76,42 +76,57 @@ Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
 
 ```
 
-# Functions 2: analyzing spatial trends in marine biodiversity
+# Functions for analyzing and visualizing spatial trends in marine biodiversity
 
-## Function 2.1 *oceanAbundGrid* 
-Allows creating global or delimited spatial grids with abundance
-of occurrences per cell at differenc cell sizes. 
+## Function 3 *oceanAbundGrid* 
+Allows creating global or delimited spatial grids with abundance of occurrences per cell at differenc cell sizes. 
+
+Following with the Acropora example, we will use this function to compute global rasters of abundance per grid cell for Acropora species at different resolutions (10 x 10?) (5 x 5?) (1? x 1?) and (0.5 x 0.0?) using *cell_size*
 
 ```{r}
-# Computing global rasters of abundance
 
-Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=5)
+
+Acropora_abundance_10x10 = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=10)
+
+Acropora_abundance_5x5 = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=5)
 
 Acropora_abundance_1x1 = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=1)
 
+Acropora_abundance_0.5x0.5 = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=0.5)
+
 
 ```
 
-## Function 2.2 *oceanMaps*  
+## Function 3 *oceanMaps*  
 A versatile data mapping tool for a rapid visualization of marine biodiversity patterns previously computed.  
 
 ```{r}
-# Rapid visualization
 
-oceanMaps(Acropora_abundance, logScale=T, main="Acropora abundance")
+par(mfrow=c(2,2))
 
-oceanMaps(Acropora_abundance_1x1, logScale=T, main="Acropora abundance (1x1)")
+oceanMaps(Acropora_abundance_10x10, logScale=T, main="Acropora abundance (10?)")
 
+oceanMaps(Acropora_abundance_5x5, logScale=T, main="Acropora abundance (5?)")
+
+oceanMaps(Acropora_abundance_1x1, logScale=T, main="Acropora abundance (1?)")
+
+oceanMaps(Acropora_abundance_0.5x0.5, logScale=T, main="Acropora abundance (0.5?)")
+
+par(mfrow=c(1,1))
+
+#
 
 ```
 
 
-## Function 2.3 *oceanDiversity* 
-Allows computing several diversity metrics (shannon, richness, simpson) at global scale or for specifically delimited areas. 
+## Function 4 *oceanDiversity* 
+Allows computing several diversity metrics (shannon, richness, simpson) at global scale or for specifically delimited areas. It also provides a species abundance matrix per grid cell, to allow for further multivariate analyses. 
+
+Computing global rasters of diversity metrics: example of Acropora species
 
 ```{r}
 
-# Computing global rasters of diversity metrics: example shannon diversity of Acropora species
+
 
 invisible(Acropora_div = oceanDiversity(occurrences = Acropora_Total_Checked))
 
@@ -122,14 +137,16 @@ Acropora_simpson = Acropora_div[[3]]
 Acropora_shannon = Acropora_div[[4]]
 
 
+par(mfrow=c(2,2))
 oceanMaps(Acropora_richness, logScale=T,main="Acropora Species Richness")
 oceanMaps(Acropora_shannon, logScale=T,main="Acropora Shannon Diversity")
 oceanMaps(Acropora_simpson, logScale=T,main="Acropora Simpson Diversity")
 
+par(mfrow=c(1,1))
 ```
 
-## Function 2.4 *oceanHotspots* 
-This function allows classifiying sites into high, mid, and low diversity given any biodiversity metric
+## Function #5 *oceanHotspots* 
+This function classifies sites into high, mid, and low diversity given any biodiversity metric
 ```{r}
 
 AcroporaHotspots = oceanHotspots(biodiversity_grid = Acropora_richness)
@@ -138,39 +155,43 @@ AcroporaHotspots = oceanHotspots(biodiversity_grid = Acropora_richness)
 ```
 
 
-# Functions 3: 
-## Accessing and exploring current and future trends in marine environmental data  
+# Functions for accessing and exploring environmental drivers of marine biodiversity
 
-## Function 3.1 *oceanEnv* 
+## Function #6 *oceanEnv* 
 Allows accessing environmental layers at present conditions to explore and test potential
 drivers of marine biodiversity patterns
 
-```{r}
-# Using the previous example on abundance and diversity of Acropora species
 
-#Compute abundance grid
+Following with the previous example on abundance and diversity of Acropora species
+
+```{r}
+
 Acropora_abundance = oceanAbundGrid(occurrences = Acropora_Total_Checked, cell_size=5)
 
-#Visualize abundance
-oceanMaps(Acropora_abundance, logScale=T, main="Acropora abundance")
-
 # getting envioronmental parameters and linking them to biodiversity patterns
-abundance_environ_df = oceanEnv(biod_grid = Acropora_abundance,
+invisible(abundance_environ_df = oceanEnv(biod_grid = Acropora_abundance,
                        biodiv_metric = "abundance", 
                        plot=T, 
-                       log_scale=T)
-  
+                       log_scale=T))
+``` 
 
 
-# we can also analyze environmental drivers of species richness using previously computed grids 
-abundance_environ_df = oceanEnv(biod_grid = Acropora_richness,
+# We can also explore environmental drivers of other metrics such as species richness using previously computed grids 
+
+```{r}
+
+invisible(abundance_environ_df = oceanEnv(biod_grid = Acropora_richness,
                        biodiv_metric = "richness", 
                        plot=T, 
-                       log_scale=T)
+                       log_scale=T))
+```
 
-# you can specify any alternative environmental parameters using env_parameters
 
-# to see the full list of avilable parameters (326)
+We can specify any alternative environmental parameters using env_parameters
+
+to see the full list of avilable parameters (326)
+
+```{r}
 
 env_variables = sdmpredictors::list_layers()
 marine_layers = env_variables[env_variables$marine==T, ]
@@ -178,23 +199,29 @@ marine_layers = env_variables[env_variables$marine==T, ]
 ```
 
 
-## Function 3.2: *oceanFuture*
+## Function #7 *oceanFuture*
 Allows accessing, analyzing and mapping future trends in temeperature and other environmental parameters according to different IPCC scenarios
 
+
+In the following example, we will access and map expected increases in Sea Surface Temperature data for 2100 according to different IPCC scenarios
+
 ```{r}
-# Accessing and mapping expected increases in Sea Surface Temperature data for 2100 according
-# to different IPCC scenarios
 
 SST_2100_RCP8.5 = oceanFuture(IPCC_scenario = "RCP85")
 SST_2100_RCP4.5 = oceanFuture(IPCC_scenario = "RCP45")
 SST_2100_RCP2.5 = oceanFuture(IPCC_scenario = "RCP26")
 
 
+```
 
-# you can check other available enviornmental parameters with avaialable future projections
 
+you can check other available enviornmental parameters with avaialable future projections
+
+```{r}
 env_variables_future = sdmpredictors::list_layers_future()
+```
 
+```{r}
 #Other examples
 
 #Maximum Surface Salinity
@@ -207,28 +234,50 @@ Surface_Salinity_max_2100_RCP2.5 = oceanFuture(env_parameter = "BO2_salinitymax_
 #Ice thick
 Ice_thick_trends_2100_RCP8.5 = oceanFuture(env_parameter = "BO2_icethickmax_ss",
                                            IPCC_scenario = "RCP45")
+```
+
+## Function #8 *oceanVulnerab*
+Allows accessing future warming trends and linking them to global hotspots of high biodiversity 
+
+In this example, we analyze and plot hotspots of Acropora biodiversity and the expected warming trends according to three IPPC scenarios. 
+
+```{r}
+
+oceanVulnerab(biodiversity_grid = AcroporaHotspots,
+              map_climtatic_impacts = F, plot_histograms = T)
+
 
 ```
 
 
-## Example on sharks from the genus Carharhinidae
+
+## Second example, exploring shark biodiversity trends of the genus Carharhinidae
 
 ```{r}
-
-#Download dataset on Carharhinidae (it has been previously checked and filtered using oceanDataCheck()
-                                   
-data(Carcharhinidae_total_checked) 
-
 #Compte a abundance grid
-Carcharhinidae_abundance = oceanAbundGrid(occurrences = Carcharhinidae_total_checked, cell_size=5)
 
-Carcharhinidae_abundance_1x1 = oceanAbundGrid(occurrences = Carcharhinidae_total_checked, cell_size=1)
+Carcharhinidae_abundance_10 = oceanAbundGrid(occurrences = Carcharhinidae_total_checked, cell_size=10)
+
+Carcharhinidae_abundance_5 = oceanAbundGrid(occurrences = Carcharhinidae_total_checked, cell_size=5)
+
+Carcharhinidae_abundance_1 = oceanAbundGrid(occurrences = Carcharhinidae_total_checked, cell_size=1)
+
+Carcharhinidae_abundance_0.5 = oceanAbundGrid(occurrences = Carcharhinidae_total_checked, cell_size=0.5)
+
+
 
 #Visualize abundance
-oceanMaps(Carcharhinidae_abundance, logScale=T, main="Carcharhinidae abundance (5ºx5º)")
+par(mfrow=c(2,2))
 
-oceanMaps(Carcharhinidae_abundance_1x1, logScale=T, main="Carcharhinidae abundance (1ºx1º)")
+oceanMaps(Carcharhinidae_abundance_10, logScale=T, main="Carcharhinidae abundance (10?)")
 
+oceanMaps(Carcharhinidae_abundance_5, logScale=T, main="Carcharhinidae abundance (5?)")
+
+oceanMaps(Carcharhinidae_abundance_1, logScale=T, main="Carcharhinidae abundance (1?)")
+
+oceanMaps(Carcharhinidae_abundance_0.5, logScale=T, main="Carcharhinidae abundance (0.5?)")
+
+par(mfrow=c(1,1))
 
 # Exploring envioronmental drivers of abundance patterns
 invisible(abundance_environ_df = oceanEnv(biod_grid = Carcharhinidae_abundance_1x1,
@@ -236,20 +285,32 @@ invisible(abundance_environ_df = oceanEnv(biod_grid = Carcharhinidae_abundance_1
                                 plot=T, 
                                 log_scale=T))
 
-
 # Computing species abundance matrix - and several diversity metrics
-invisible(Carcharhinidae_diversity = oceanDiversity(occurrences = Carcharhinidae_total_checked))
+Carcharhinidae_diversity = oceanDiversity(occurrences = Carcharhinidae_total_checked)
+
+
+par(mfrow=c(2,2))
 
 # Visualizing richness
 oceanMaps(Carcharhinidae_diversity[[2]], main = "Carcharhinidae richness")
+oceanMaps(Carcharhinidae_diversity[[3]], main = "Carcharhinidae Shannon Diversity")
+oceanMaps(Carcharhinidae_diversity[[4]], main = "Carcharhinidae Simpson Diversity")
+
+par(mfrow=c(1,1))
 
 # Exploring envioronmental drivers of abundance patterns
-invisible(diversity_environ_df = oceanEnv(biod_grid = Carcharhinidae_diversity[[2]],
+invisible(diversity_env_df = oceanEnv(biod_grid = Carcharhinidae_diversity[[2]],
                                 biodiv_metric = "richness", 
                                 plot=T, 
                                 log_scale=T))
 
-invisible(oceanHotspots(biodiversity_grid = diversity_environ_df[[2]]))
+Carcharhinidea_hotspots = oceanHotspots(biodiversity_grid = Carcharhinidae_diversity[[2]], 
+                          hotspot_map=T, main = "Hotspots and coldspots of shark diversity")
+
+
+oceanVulnerab(biodiversity_grid = Carcharhinidea_hotspots,
+              map_climtatic_impacts = F, plot_histograms = T)
+
 
 ```
 
