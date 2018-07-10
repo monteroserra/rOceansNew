@@ -96,10 +96,10 @@ Acropora_abundance_0.5x0.5 = oceanAbundGrid(occurrences = Acropora_Total_Checked
 A versatile data mapping tool for a rapid visualization of marine biodiversity patterns previously computed.  
 ```{r}
 par(mfrow=c(2,2))
-oceanMaps(Acropora_abundance_10x10, logScale=T, main="Acropora abundance (10?)")
-oceanMaps(Acropora_abundance_5x5, logScale=T, main="Acropora abundance (5?)")
-oceanMaps(Acropora_abundance_1x1, logScale=T, main="Acropora abundance (1?)")
-oceanMaps(Acropora_abundance_0.5x0.5, logScale=T, main="Acropora abundance (0.5?)")
+oceanMaps(Acropora_abundance_10x10, logScale=T, main="Acropora abundance (10x10º)")
+oceanMaps(Acropora_abundance_5x5, logScale=T, main="Acropora abundance (5x5º)")
+oceanMaps(Acropora_abundance_1x1, logScale=T, main="Acropora abundance (1x1º)")
+oceanMaps(Acropora_abundance_0.5x0.5, logScale=T, main="Acropora abundance (0.5x0.5º)")
 par(mfrow=c(1,1))
 
 ```
@@ -109,7 +109,7 @@ Allows computing several diversity metrics (shannon, richness, simpson) at globa
 
 Computing global rasters of diversity metrics: example of Acropora species
 ```{r}
-Acropora_div = invisible(oceanDiversity(occurrences = Acropora_Total_Checked))
+Acropora_div = oceanDiversity(occurrences = Acropora_Total_Checked, print=F)
 
 Acropora_species_matrix = Acropora_div[[1]]
 Acropora_richness = Acropora_div[[2]]
@@ -221,10 +221,10 @@ Carcharhinidae_abundance_0.5 = oceanAbundGrid(occurrences = Carcharhinidae_total
 #Visualize abundance
 ```{r}
 par(mfrow=c(2,2))
-oceanMaps(Carcharhinidae_abundance_10, logScale=T, main="Carcharhinidae abundance (10?)")
-oceanMaps(Carcharhinidae_abundance_5, logScale=T, main="Carcharhinidae abundance (5?)")
-oceanMaps(Carcharhinidae_abundance_1, logScale=T, main="Carcharhinidae abundance (1?)")
-oceanMaps(Carcharhinidae_abundance_0.5, logScale=T, main="Carcharhinidae abundance (0.5?)")
+oceanMaps(Carcharhinidae_abundance_10, logScale=T, main="Carcharhinidae abundance (10x10º)")
+oceanMaps(Carcharhinidae_abundance_5, logScale=T, main="Carcharhinidae abundance (5x5º)")
+oceanMaps(Carcharhinidae_abundance_1, logScale=T, main="Carcharhinidae abundance (1x1º)")
+oceanMaps(Carcharhinidae_abundance_0.5, logScale=T, main="Carcharhinidae abundance (0.5x0.5º)")
 par(mfrow=c(1,1))
 ```
 
@@ -238,7 +238,7 @@ abundance_environ_df = invisible(oceanEnv(biod_grid = Carcharhinidae_abundance_1
 
 # Computing species abundance matrix - and several diversity metrics
 ```{r}
-Carcharhinidae_diversity = oceanDiversity(occurrences = Carcharhinidae_total_checked)
+Carcharhinidae_diversity = oceanDiversity(occurrences = Carcharhinidae_total_checked, print=F)
 
 # Visualizing diversity metrics
 par(mfrow=c(2,2))

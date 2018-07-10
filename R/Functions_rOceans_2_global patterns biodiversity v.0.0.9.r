@@ -381,7 +381,7 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
                            long_name = "decimalLongitude",
                            extent = "global",cell_size = 5, 
                            min_long = -180, max_long = 180,
-                           min_lat = -90,   max_lat = 90) {
+                           min_lat = -90,   max_lat = 90, print=T) {
   
   
   #for richness matrices, we can make a loop to split the database for each species and make the same computation
@@ -421,7 +421,9 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
     dataMerge[is.na(dataMerge)] <- 0
     sps_abund_matrix$species_abundance = dataMerge$count
     colnames(sps_abund_matrix)[5+i] <- paste(species_id)
+    if(print){
     cat(paste(i,"of",length(species),"species", round((i/length(species))*100),"%"), sep="\n")
+    }
     }
   
   #Make a raster
