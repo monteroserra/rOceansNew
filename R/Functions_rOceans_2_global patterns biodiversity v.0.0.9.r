@@ -49,7 +49,7 @@ oceanDataCheck = function (source="OBIS",
     
     GBIF_occurrences_filtered = GBIF_occurrences[GBIF_occurrences$taxonrank == "SPECIES",]
     
-    cat(paste(nrow(GBIF_occurrences)-nrow(GBIF_occurrences_filtered),"occurrences were deleted due to non-standard taxonomic information"),sep="\n")
+    cat(paste(nrow(GBIF_occurrences)-nrow(GBIF_occurrences_filtered),"occurrences were deleted from GBIF data due to a lack of standard species level information"),sep="\n")
     
     
     GBIF_occurrences = GBIF_occurrences_filtered[,c("scientificname", "species",
@@ -61,10 +61,10 @@ oceanDataCheck = function (source="OBIS",
     
     OBIS_occurrences_filtered = OBIS_occurrences[!is.na(OBIS_occurrences$worms_id),]
     
-    cat(paste(nrow(OBIS_occurrences)-nrow(OBIS_occurrences_filtered),"occurrences were deleted due to non-standard taxonomic information"),sep="\n")
+    cat(paste(nrow(OBIS_occurrences)-nrow(OBIS_occurrences_filtered),"occurrences were deleted from OBIS data due to of standard species level information"),sep="\n")
     
     
-    OBIS_occurrences = OBIS_occurrencesB[,c("scientificName", "species","decimalLongitude", "decimalLatitude",
+    OBIS_occurrences = OBIS_occurrences_filtered[,c("scientificName", "species","decimalLongitude", "decimalLatitude",
                                            "catalogNumber",  "institutionCode")]
     
     

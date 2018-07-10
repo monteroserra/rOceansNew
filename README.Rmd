@@ -216,18 +216,12 @@ Carcharhinidae_abundance_1 = oceanAbundGrid(occurrences = Carcharhinidae_total_c
 Carcharhinidae_abundance_0.5 = oceanAbundGrid(occurrences = Carcharhinidae_total_checked, cell_size=0.5)
 
 
-
 #Visualize abundance
 par(mfrow=c(2,2))
-
 oceanMaps(Carcharhinidae_abundance_10, logScale=T, main="Carcharhinidae abundance (10?)")
-
 oceanMaps(Carcharhinidae_abundance_5, logScale=T, main="Carcharhinidae abundance (5?)")
-
 oceanMaps(Carcharhinidae_abundance_1, logScale=T, main="Carcharhinidae abundance (1?)")
-
 oceanMaps(Carcharhinidae_abundance_0.5, logScale=T, main="Carcharhinidae abundance (0.5?)")
-
 par(mfrow=c(1,1))
 
 # Exploring envioronmental drivers of abundance patterns
@@ -240,13 +234,11 @@ invisible(abundance_environ_df = oceanEnv(biod_grid = Carcharhinidae_abundance_1
 Carcharhinidae_diversity = oceanDiversity(occurrences = Carcharhinidae_total_checked)
 
 
-par(mfrow=c(2,2))
-
 # Visualizing richness
+par(mfrow=c(2,2))
 oceanMaps(Carcharhinidae_diversity[[2]], main = "Carcharhinidae richness")
 oceanMaps(Carcharhinidae_diversity[[3]], main = "Carcharhinidae Shannon Diversity")
 oceanMaps(Carcharhinidae_diversity[[4]], main = "Carcharhinidae Simpson Diversity")
-
 par(mfrow=c(1,1))
 
 # Exploring envioronmental drivers of abundance patterns
