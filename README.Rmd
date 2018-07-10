@@ -197,8 +197,8 @@ Allows accessing future warming trends and linking them to global hotspots of hi
 
 In this example, we analyze and plot hotspots of Acropora biodiversity and the expected warming trends according to three IPPC scenarios. 
 ```{r}
-oceanVulnerab(biodiversity_grid = AcroporaHotspots,
-              map_climtatic_impacts = F, plot_histograms = T)
+hotspots_vulnerb <- oceanVulnerab(biodiversity_grid = AcroporaHotspots,
+                    map_climtatic_impacts = F, plot_histograms = T)
 ```
 
 ## Second example, exploring shark biodiversity trends of the genus Carharhinidae
@@ -263,8 +263,8 @@ Carcharhinidea_hotspots = oceanHotspots(biodiversity_grid = Carcharhinidae_diver
                           hotspot_map=T, main = "Hotspots and coldspots of shark diversity")
 
 
-oceanVulnerab(biodiversity_grid = Carcharhinidea_hotspots,
-              map_climtatic_impacts = F, plot_histograms = T)
+hotspots_vulnerb <- oceanVulnerab(biodiversity_grid = Carcharhinidea_hotspots,
+                     map_climtatic_impacts = F, plot_histograms = T)
 
 ```
 
