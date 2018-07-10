@@ -109,7 +109,7 @@ Allows computing several diversity metrics (shannon, richness, simpson) at globa
 
 Computing global rasters of diversity metrics: example of Acropora species
 ```{r}
-invisible(Acropora_div = oceanDiversity(occurrences = Acropora_Total_Checked))
+Acropora_div = invisible(oceanDiversity(occurrences = Acropora_Total_Checked))
 
 Acropora_species_matrix = Acropora_div[[1]]
 Acropora_richness = Acropora_div[[2]]

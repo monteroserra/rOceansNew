@@ -517,17 +517,13 @@ oceanHotspots = function (biodiversity_grid,
         high_treshold, max_diversity, 3)
   
   rclmat = matrix(m, ncol=3, byrow=TRUE)
-  
   biodiversity_classified = reclassify(biodiversity_grid, rclmat)
-  
-
 
 if(only_hotspots){
     
     biodiversity_classified[biodiversity_classified<3] <- NA
     
   if(hotspot_map){
-      dev.off()
       maps::map("world", fill = T,col="grey20",main=main, cex.main=cex.main)
       maps::map.axes()
       plot(biodiversity_classified, col=c("firebrick"), add=T, legend=F)
@@ -538,7 +534,6 @@ if(only_hotspots){
   } else {
   
   if(hotspot_map){
-    dev.off()
     maps::map("world", fill = T,col="grey20", main=main,cex.main=cex.main)
     maps::map.axes()
     plot(biodiversity_classified, col=c("steelblue", "gold","firebrick"), add=T, legend=F)
