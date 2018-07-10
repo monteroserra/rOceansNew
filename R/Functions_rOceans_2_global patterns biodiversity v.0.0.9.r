@@ -500,9 +500,6 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
 #' @details This function allows classifiying sites into high, mid, and low diversity given any biodiversity metric
 #' @export
 
-biodiversity_grid = Carcharhinidae_diversity[[2]]
-
-
 oceanHotspots = function (biodiversity_grid, 
                           hotspot_map=T, 
                           only_hotspots=F, 
@@ -549,7 +546,7 @@ if(only_hotspots){
     
   }
 }
-  main="ee", cex.main=0.7
+ 
   return(biodiversity_classified)
   
 }
