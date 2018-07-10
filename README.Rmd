@@ -201,7 +201,6 @@ oceanVulnerab(biodiversity_grid = AcroporaHotspots,
               map_climtatic_impacts = F, plot_histograms = T)
 ```
 
-
 ## Second example, exploring shark biodiversity trends of the genus Carharhinidae
 
 #Compute a abundance grid
@@ -231,7 +230,7 @@ par(mfrow=c(1,1))
 
 # Exploring envioronmental drivers of abundance patterns
 ```{r}
-abundance_environ_df = invisible(oceanEnv(biod_grid = Carcharhinidae_abundance_1x1,
+abundance_environ_df = invisible(oceanEnv(biod_grid = Carcharhinidae_abundance_1,
                                 biodiv_metric = "abundance", 
                                 plot=T, 
                                 log_scale=T))
