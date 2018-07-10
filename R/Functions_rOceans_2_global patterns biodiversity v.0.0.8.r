@@ -246,10 +246,10 @@ return(abundance_grid)
 #' @export
 
 
-oceanMaps = function (grid, 
+oceanMaps = function (grid = NULL, 
                       grid_provided=T,
                       logScale = F,  
-                      occurrences, 
+                      occurrences = NULL, 
                       map_occurrences = F,
                       convex_hull = F,
                       long_name="decimalLongitude", 
@@ -266,8 +266,6 @@ oceanMaps = function (grid,
                       main="", 
                       hotspots_map=F){
 
-dev.off()
-  
 ## color gradient function
 color.gradient <- function(x, colors=c(low_color,mid_color,high_color), colsteps=col_steps) {
     return(colorRampPalette(colors) (colsteps) [ findInterval(x, seq(min(x),max(x), length.out=colsteps)) ] )
