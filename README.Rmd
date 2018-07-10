@@ -32,8 +32,7 @@ Allows accessing occurrence data from GBIF and OBIS for a given vector of specie
 # Define target species names: example with three corals
 coral_species = c("Corallium rubrum", "Acropora palmata", "Paramuricea clavata")
 
-# Get, merge and filter occurrences using oceanDivDat()
-
+# Get, merge and filter occurrences from GBIF & OBIS using oceanDivDat()
 corals = oceanDivDat(species_names = coral_species,
                      data_source = "OBIS_&_GBIF", 
                      remove_duplicates = T, 
@@ -41,7 +40,20 @@ corals = oceanDivDat(species_names = coral_species,
 
 ```
 
-## Function 1.2 *oceanDataCheck* 
+
+Compute abundance per grid cell and visualize the results using *oceanAbunGrid()* & *oceanMaps()*
+```{r}
+
+#Compute abundance per grid cell
+
+corals_abundance = oceanAbundGrid(corals)
+
+oceanMaps(grid = corals_abundance, main = "Abundance of three coral species")
+
+
+```
+
+## Function 2 *oceanDataCheck* 
 Allows merging, checking, filtering the raw data from OBIS and/or GBIF into a common standard database. It removes occurrences with inconsistent or inconmplete taxonomic information, land-based occurrences, and duplicate occurrences. 
 
 For this set of functions, we first  need to access and download data from GBIF (www.gbif.org) and OBIS (www.iobis.org). 
