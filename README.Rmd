@@ -96,10 +96,10 @@ Acropora_abundance_0.5x0.5 = oceanAbundGrid(occurrences = Acropora_Total_Checked
 A versatile data mapping tool for a rapid visualization of marine biodiversity patterns previously computed.  
 ```{r}
 par(mfrow=c(2,2))
-oceanMaps(Acropora_abundance_10x10, logScale=T, main="Acropora abundance (10x10º)")
-oceanMaps(Acropora_abundance_5x5, logScale=T, main="Acropora abundance (5x5º)")
-oceanMaps(Acropora_abundance_1x1, logScale=T, main="Acropora abundance (1x1º)")
-oceanMaps(Acropora_abundance_0.5x0.5, logScale=T, main="Acropora abundance (0.5x0.5º)")
+oceanMaps(Acropora_abundance_10x10, logScale=T, main="Acropora abundance (10x10)")
+oceanMaps(Acropora_abundance_5x5, logScale=T, main="Acropora abundance (5x5)")
+oceanMaps(Acropora_abundance_1x1, logScale=T, main="Acropora abundance (1x1)")
+oceanMaps(Acropora_abundance_0.5x0.5, logScale=T, main="Acropora abundance (0.5x0.5)")
 par(mfrow=c(1,1))
 
 ```
@@ -221,10 +221,10 @@ Carcharhinidae_abundance_0.5 = oceanAbundGrid(occurrences = Carcharhinidae_total
 #Visualize abundance
 ```{r}
 par(mfrow=c(2,2))
-oceanMaps(Carcharhinidae_abundance_10, logScale=T, main="Carcharhinidae abundance (10x10º)")
-oceanMaps(Carcharhinidae_abundance_5, logScale=T, main="Carcharhinidae abundance (5x5º)")
-oceanMaps(Carcharhinidae_abundance_1, logScale=T, main="Carcharhinidae abundance (1x1º)")
-oceanMaps(Carcharhinidae_abundance_0.5, logScale=T, main="Carcharhinidae abundance (0.5x0.5º)")
+oceanMaps(Carcharhinidae_abundance_10, logScale=T, main="Carcharhinidae abundance (10x10)")
+oceanMaps(Carcharhinidae_abundance_5, logScale=T, main="Carcharhinidae abundance (5x5)")
+oceanMaps(Carcharhinidae_abundance_1, logScale=T, main="Carcharhinidae abundance (1x1)")
+oceanMaps(Carcharhinidae_abundance_0.5, logScale=T, main="Carcharhinidae abundance (0.5x0.5)")
 par(mfrow=c(1,1))
 ```
 
