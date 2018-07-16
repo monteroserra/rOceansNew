@@ -287,12 +287,12 @@ if(grid_provided){
       plot(grid, col=cols, main=main, cex.main = cex_main)
     }
     
-    maps::map("world",add=T, fill = T,bg=background_color,col="grey30")
+    maps::map("world",add=T, fill = T,bg=background_color,col=background_color)
     maps::map.axes()
     
   }
   else {
-    
+   
     maps::map("world", fill = T,col=background_color)
     maps::map.axes()
     
