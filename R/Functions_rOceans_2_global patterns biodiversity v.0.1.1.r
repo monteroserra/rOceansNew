@@ -288,7 +288,6 @@ if(grid_provided){
     }
     
     maps::map("world",add=T, fill = T,bg=background_color,col=background_color)
-    maps::map.axes()
     
   }
   else {
@@ -512,11 +511,8 @@ simpson_values = diversity(species_abundance_mx[,-c(1:3)],
 #' @export
 
 oceanHotspots = function (biodiversity_grid, 
-                          hotspot_map=T, 
                           only_hotspots=F, 
                           main="", cex.main=0.8) {
-  
-  ## Identifying biodiversity hotspot
   
   ## Framework for classififying into low - mid - high diversity sites
   min_diversity = minValue(biodiversity_grid)
@@ -534,23 +530,17 @@ if(only_hotspots){
     
     biodiversity_classified[biodiversity_classified<3] <- NA
     
-  if(hotspot_map){
-      maps::map("world", fill = T,col="grey20",main=main, cex.main=cex.main)
-      maps::map.axes()
-      plot(biodiversity_classified, col=c("firebrick"), add=T, legend=F)
-      maps::map("world", fill = T,add=T,col="grey20")
-    
-      }
-    
-  } else {
-  
-  if(hotspot_map){
-    maps::map("world", fill = T,col="grey20", main=main,cex.main=cex.main)
+    maps::map("world", fill = T,col="grey20",main=main, cex.main=cex.main)
     maps::map.axes()
-    plot(biodiversity_classified, col=c("steelblue", "gold","firebrick"), add=T, legend=F)
+    plot(biodiversity_classified, col=c("firebrick"), add=T, legend=F)
     maps::map("world", fill = T,add=T,col="grey20")
     
-  }
+} else {
+  
+    plot(biodiversity_classified, col=c("steelblue", "gold","firebrick"), add=T, legend=F)
+    maps::map("world", fill = T,add=T,col="grey20")
+    maps::map.axes()
+    
 }
  
   return(biodiversity_classified)

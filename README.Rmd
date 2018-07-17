@@ -108,8 +108,9 @@ par(mfrow=c(1,1))
 Allows computing several diversity metrics (shannon, richness, simpson) at global scale or for specifically delimited areas. It also provides a species abundance matrix per grid cell, to allow for further multivariate analyses. 
 
 Computing global rasters of diversity metrics: example of Acropora species
-```{r}
-Acropora_div = oceanDiversity(occurrences = Acropora_Total_Checked, print=F)
+```{r, echo = FALSE, results="hide"}
+
+Acropora_div = oceanDiversity(occurrences = Acropora_Total_Checked)
 
 Acropora_species_matrix = Acropora_div[[1]]
 Acropora_richness = Acropora_div[[2]]
