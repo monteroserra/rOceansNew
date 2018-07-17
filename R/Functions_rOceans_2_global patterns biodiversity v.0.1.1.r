@@ -407,7 +407,7 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
   
   values(grid) <- 0
   
-  species_abundance_mx = as.data.frame(grid, xy=T)
+  species_abundance_mx = raster::as.data.frame(grid, xy=T)
   
   ext =  extent(c(min_long,max_long, min_lat, max_lat))
   
@@ -423,7 +423,7 @@ for(i in 1:length(species)){
     
     extent(abundance_one_species) <- extent(c(-180,180, -90, 90))
     
-    species_abundance_mx[,i+2] = as.data.frame(abundance_one_species, xy=T)[,3]
+    species_abundance_mx[,i+2] = raster::as.data.frame(abundance_one_species, xy=T)[,3]
     
     if(print_progress){
       
