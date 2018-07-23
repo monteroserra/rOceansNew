@@ -411,7 +411,7 @@ oceanDiversity = function (occurrences, species_name = "scientificName",
   
   ext =  extent(c(min_long,max_long, min_lat, max_lat))
   
-for(i in 1:length(species)){
+for(i in 1:NROW(species)){
 
     species_id = species[i]
     
