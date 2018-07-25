@@ -502,6 +502,7 @@ for (i in 1:NROW(species)) {
 
 oceanHotspots = function (biodiversity_grid, 
                           only_hotspots=F, 
+                          map_hotspots = T,
                           main="", cex.main=0.8) {
   
   ## Framework for classififying into low - mid - high diversity sites

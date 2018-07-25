@@ -107,10 +107,10 @@ par(mfrow=c(1,1))
 
 ## Function #5 *oceanHotspots* 
 This function classifies sites into high, mid, and low diversity given any biodiversity metric (work in progress)
-#```{r}
-#AcroporaHotspots = oceanHotspots(biodiversity_grid = Acropora_richness)
+```{r}
+AcroporaHotspots = oceanHotspots(biodiversity_grid = Acropora_richness)
 
-#```
+```
 
 
 # Functions for accessing and exploring environmental drivers of marine biodiversity
