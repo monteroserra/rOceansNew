@@ -263,7 +263,7 @@ oceanMaps = function (grid = NULL,
                       min_long = -180, max_long = 180,
                       min_lat = -90, max_lat = 90,
                       species_name = "species",
-                      background_color="grey10", 
+                      background_color="grey60", 
                       dot_color="steelblue", 
                       low_color="steelblue", 
                       mid_color="gold",
@@ -334,11 +334,10 @@ if(grid_provided){
 
 if(hotspots_map){
   
-  maps::map("world", fill = T,col=background_color)
+  plot(grid, col=c("steelblue", "gold","firebrick"), add=F, legend=F)
+  maps::map("world", fill = T,add=T,col=background_color)
   maps::map.axes()
-  plot(grid, col=c("steelblue", "gold","firebrick"), add=T, legend=F)
-  maps::map("world", fill = T,add=T,col="grey20")
-
+  
   }
   
 }
@@ -500,6 +499,7 @@ for (i in 1:NROW(species)) {
 #' @details This function allows classifiying sites into high, mid, and low diversity given any biodiversity metric
 #' @export
 
+
 oceanHotspots = function (biodiversity_grid, 
                           only_hotspots=F, 
                           main="", cex.main=0.8) {
@@ -516,23 +516,21 @@ oceanHotspots = function (biodiversity_grid,
   rclmat = matrix(m, ncol=3, byrow=TRUE)
   biodiversity_classified = reclassify(biodiversity_grid, rclmat)
 
+  
+  
+  
 if(only_hotspots){
     
     biodiversity_classified[biodiversity_classified<3] <- NA
     
-    maps::map("world", fill = T,col="grey20",main=main, cex.main=cex.main)
-    maps::map.axes()
-    plot(biodiversity_classified, col=c("firebrick"), add=T, legend=F)
-    maps::map("world", fill = T,add=T,col="grey20")
-    
-} else {
+} 
   
-    plot(biodiversity_classified, col=c("steelblue", "gold","firebrick"), add=T, legend=F)
-    maps::map("world", fill = T,add=T,col="grey20")
-    maps::map.axes()
+  if(map_hotspots) {
+  
+    oceanMaps(biodiversity_classified, hotspots_map = T)
+  
+  }
     
-}
- 
   return(biodiversity_classified)
   
 }
