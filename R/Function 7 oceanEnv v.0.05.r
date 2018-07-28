@@ -1,5 +1,4 @@
-#' ROxygen2 block for function #3.1
-#' Function 3.1 oceanEnv: downloads and links environmental variables to marine biodiversity metrics
+#' Function 7 oceanEnv: downloads and links environmental variables to marine biodiversity metrics
 #'
 #' @description downloads and links environmental variables to marine biodiversity metrics
 #'

@@ -1,4 +1,4 @@
-#' Function 1.1 oceanDist: allows getting presences and distribution maps  for a list of species
+#' Function 1 oceanDivDat: allows getting presences and distribution maps  for a list of species
 #' ROxygen2 block for function #1
 #' Allows getting distribution data  for a list of species from OBIS & GBIF
 #'
