@@ -51,10 +51,8 @@ oceanDiversity = function (occurrences,
                            print_progress = T) 
 {
 
-  occurrences = Porifera_Total_Checked
-    
   data = occurrences[, c(species_name, lat_name, long_name)]
-  species = unique((data[, species_name]))
+  species = unique(data[, species_name])
   
   if (extent == "manual") {
     grid <- raster(xmn = min_long, xmx = max_long, ymn = min_lat, 
@@ -94,13 +92,13 @@ oceanDiversity = function (occurrences,
   #ext = extent(c(min_long, max_long, min_lat, max_lat))
   
   for (i in 1:NROW(species)) {
-  
-    species_id = species[i,]
+
+    species_id = species[i,1]
     
     data_one_species = data[data$scientificName == species_id,]
     
-    abundance_one_species = rasterize(data_one_species[, 
-                                                       c(long_name, lat_name)], y = grid, fun = "count")
+    abundance_one_species = rasterize(data_one_species[, c(long_name, lat_name)], 
+                                      y = grid, fun = "count")
     abundance_one_species[is.na(abundance_one_species)] = 0
     extent(abundance_one_species) <- extent(c(-180, 180, 
                                               -90, 90))
