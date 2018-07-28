@@ -1,0 +1,60 @@
+---
+tittle: "Exploring ACropora corals abundance and diversity from GBIF and OBIS data"
+author: "I. Montero-Serra, E. Aspillaga, K. Kaplan, V. Barbe & N. Barve"
+date: 23/Jul/2018
+rmarkdown::html_vignette:
+  pdf_document:
+    highlight: tango
+    fig_caption: false
+fontsize: 11pt
+classoption: a4paper
+vignette: >
+  %\VignetteIndexEntry{Exploring patterns in Acropora corals abundance and diversity}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = ">"
+)
+```
+
+# Introduction
+
+This document describes how to use rOceans, an R package for exploring spatial trends in marine biodiversity and conservation. Here we have a examples of usage for explore spatial patterns of biodiversity in scleractinian corals of the genus Acropora. 
+
+
+(1) Download rOceansNew from GitHub and load the package
+
+```{r}
+invisible(devtools::install_github("monteroserra/rOceansNew"))
+invisible(library(rOceansNew))
+
+```
+
+## Function #2 *oceanDataCheck* 
+Allows merging, checking, filtering the raw data from OBIS and/or GBIF into a common standard database. It removes occurrences with inconsistent or inconmplete taxonomic information, land-based occurrences, and duplicate occurrences. 
+
+For this set of functions, we first  need to access and download data from GBIF (www.gbif.org) and OBIS (www.iobis.org). 
+
+Here I show an example with data of species within the genus *Acropora* that were directly downloaded from the website on June 2018. The data can be accessed from my GitHub repository "monteroserra/rOceanData" or using data()
+
+```{r}
+#Accesing raw datasets
+data(Acropora_GBIF) 
+data(Acropora_OBIS)
+
+#Checking OBIS or GBIF individually
+Acropora_OBIS_checked = oceanDataCheck(OBIS_occurrences = Acropora_OBIS, source = "OBIS")
+
+Acropora_GBIF_checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF, source = "GBIF")
+```
+
+Merging OBIS and GBIF Datasets, and checking for taxonomic and geographic issues
+```{r}
+Acropora_Total_Checked = oceanDataCheck(GBIF_occurrences = Acropora_GBIF,
+                                        OBIS_occurrences = Acropora_OBIS,
+                                        source = "GBIF_&_OBIS")
+```

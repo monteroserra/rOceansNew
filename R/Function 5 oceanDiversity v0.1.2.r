@@ -50,7 +50,9 @@ oceanDiversity = function (occurrences,
                            max_lat = 90, 
                            print_progress = T) 
 {
-  
+
+  occurrences = Porifera_Total_Checked
+    
   data = occurrences[, c(species_name, lat_name, long_name)]
   species = unique((data[, species_name]))
   
@@ -92,8 +94,8 @@ oceanDiversity = function (occurrences,
   #ext = extent(c(min_long, max_long, min_lat, max_lat))
   
   for (i in 1:NROW(species)) {
-    
-    species_id = species[i]
+  
+    species_id = species[i,]
     
     data_one_species = data[data$scientificName == species_id,]
     

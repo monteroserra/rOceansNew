@@ -25,6 +25,8 @@
 #' and stores them in a data frame.
 #' @export
 
+species_names = corals
+
 
 oceanDivDat = function(species_names,
                        data_source = "OBIS",
@@ -42,7 +44,6 @@ my_occurrences <- plyr::ldply(species_names, function(i) {
     GBIF_info <- occ_search(scientificName = i)
     return(GBIF_info$data[,c("species","decimalLongitude","decimalLatitude")])
 })
-
 }
 
 if (data_source == "OBIS"){

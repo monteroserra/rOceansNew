@@ -66,8 +66,7 @@ oceanMaps = function (grid = NULL,
   
   cols = color.gradient(1:col_steps)
   
-  if(grid_provided){
-    
+if(grid_provided){
     
     if (logScale){
       
@@ -80,33 +79,30 @@ oceanMaps = function (grid = NULL,
     
     maps::map("world",add=T, fill = T,bg=background_color,col=background_color)
     
-  }
- 
- else {
+} else {
     
-    maps::map("world", fill = T,col=background_color)
-    maps::map.axes()
-    
+  maps::map("world",add=F, fill = T,bg="white",col=background_color)
+  maps::map.axes()
   }
   
   if(map_occurrences){
     
+    species = unique(occurrences$species)
     
-    
-    if (length(levels(occurrences$species)) > 1){
+    if (length(species) > 1){
       
-      palette(color.gradient(1:20))
+      palette(color.gradient(1:length(species)))
       
     }
     
     if (convex_hull) {
       
       for(i in 1:length(occurrences$species)){
-        xy =  occurrences[occurrences$species==levels(as.factor(occurrences$species))[i],c(long_name,lat_name)]
+        xy =  occurrences[occurrences$species==species[i],c(long_name,lat_name)]
         coordinates(xy) <- ~decimalLongitude + decimalLatitude
         Convex_hull <- rgeos::gConvexHull(xy)
         proj4string(Convex_hull) <- "+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"
-        plot(Convex_hull, add=T, lwd=2, col="grey70")
+        plot(Convex_hull, add=T, lwd=2, col=cols)
         
       }
       
