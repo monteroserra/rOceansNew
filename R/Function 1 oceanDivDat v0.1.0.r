@@ -25,9 +25,6 @@
 #' and stores them in a data frame.
 #' @export
 
-species_names = corals
-
-
 oceanDivDat = function(species_names,
                        data_source = "OBIS",
                        remove_duplicates=T,
