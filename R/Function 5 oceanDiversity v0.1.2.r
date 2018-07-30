@@ -24,18 +24,17 @@
 #' @param diversity_metric diversity metric to be computes: richness, shannon or simpson indeces
 #' 
 #' @param extent how to the spatial extent of the analysis:"manual", "regions"
-
+#' 
+#' @param rarefaction_treshold miminum sampling for the rarefaction correction
+#' 
 #' @param regions spatial extent "global", "Mediterranean", "Caribbean" or "Australia" 
 #' 
 #' @return The function returns a an object of class raster with abundance per cell
-#'
 #'
 #' @details The function creates downloads occurrences data from the specific sources
 #' and stores them in a data frame.
 #' 
 #' @export
-
-
 
 oceanDiversity = function (occurrences, 
                            species_name = "scientificName", 
@@ -44,6 +43,7 @@ oceanDiversity = function (occurrences,
                            extent = "regions", 
                            region="Global", 
                            cell_size = 5, 
+                           rarefaction_treshold = 50,
                            min_long = -180, 
                            max_long = 180, 
                            min_lat = -90, 
@@ -93,7 +93,7 @@ oceanDiversity = function (occurrences,
   
   for (i in 1:NROW(species)) {
 
-    species_id = species[i,1]
+    species_id = species[i]
     
     data_one_species = data[data$scientificName == species_id,]
     
@@ -112,7 +112,11 @@ oceanDiversity = function (occurrences,
   
   
   results = list()
+  
+  #1 = species abundance matrix
   results[[1]] = species_abundance_mx
+  
+  #2 species richness grid
   sps_presence_matrix = species_abundance_mx[, -c(1:3)]
   sps_presence_matrix[sps_presence_matrix > 0] <- 1
   richness = rowSums(sps_presence_matrix)
@@ -121,7 +125,24 @@ oceanDiversity = function (occurrences,
   richness_grid = rasterize(richness_df[, c(2, 3)], grid, field = richness_df$richness, 
                             fun = "last", background = NA)
   richness_grid[richness_grid == 0] <- NA
+  
   results[[2]] = richness_grid
+  
+  #3 corrected species richness grid
+  
+  srare <- rarefy(species_abundance_mx[, -c(1:3)], sample=rarefaction_treshold)
+  
+  coordinates <- species_abundance_mx[,c(1:3)]
+  df <- cbind(srare, coordinates) 
+  coordinates(df) <- ~ x + y
+  gridded(df) <- TRUE
+  corrected_richness <- raster(df)
+  corrected_richness[corrected_richness==0] <- NA
+  
+  results[[3]] = corrected_richness
+  
+  #4 Shannon diversity grid 
+
   shannon_values = diversity(species_abundance_mx[, -c(1:3)], 
                              index = "shannon", MARGIN = 1, base = exp(1))
   shannon_df = species_abundance_mx[, c(1:2)]
@@ -129,7 +150,10 @@ oceanDiversity = function (occurrences,
   shannon_grid = rasterize(shannon_df[, c(1, 2)], grid, field = shannon_df$shannon_div, 
                            fun = "last", background = NA)
   shannon_grid[shannon_grid == 0] <- NA
-  results[[3]] = shannon_grid
+  results[[4]] = shannon_grid
+  
+  #5 Simpson diversity grid 
+  
   simpson_values = diversity(species_abundance_mx[, -c(1:3)], 
                              index = "simpson", MARGIN = 1, base = exp(1))
   simpson_df = species_abundance_mx[, c(1:2)]
@@ -139,8 +163,10 @@ oceanDiversity = function (occurrences,
   simpson_grid = rasterize(simpson_df[, c(1, 2)], grid, field = simpson_df$simpson_div, 
                            fun = "last", background = NA)
   simpson_grid[simpson_grid == 0] <- NA
-  results[[4]] = simpson_grid
+  results[[5]] = simpson_grid
+  
   simpson_values = diversity(species_abundance_mx[, -c(1:3)], 
                              index = "simpson", MARGIN = 1, base = exp(1))
+  
   return(results)
 }
